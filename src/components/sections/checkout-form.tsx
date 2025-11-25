@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { toast } from 'sonner'
-import { Loader2 } from '@phosphor-icons/react'
+import { CircleNotch } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 
 const formSchema = z.object({
@@ -177,7 +177,7 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
                       className={isCepLoading ? 'pr-10' : ''}
                     />
                     {isCepLoading && (
-                      <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-purple-600" />
+                      <CircleNotch className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-purple-600" />
                     )}
                   </div>
                 </FormControl>
@@ -326,7 +326,7 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
             className="w-full h-12 text-base font-semibold"
             disabled={isLoading}
           >
-            {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+            {isLoading && <CircleNotch className="mr-2 h-5 w-5 animate-spin" />}
             <span className="flex items-center gap-2">
               Finalizar pedido no WhatsApp
             </span>
