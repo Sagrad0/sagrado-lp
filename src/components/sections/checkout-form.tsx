@@ -8,8 +8,21 @@ import { useCart } from '@/lib/store/cart'
 import { generateWhatsAppLink } from '@/lib/generate-whatsapp-link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from '@/components/ui/form'
 import { toast } from 'sonner'
 import { CircleNotch } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
@@ -22,10 +35,11 @@ const formSchema = z.object({
     .max(15, 'Telefone inválido')
     .regex(/^\(\d{2}\)\s\d\s\d{4}-\d{4}$/, 'Formato inválido. Use (99) 9 9999-9999'),
   cep: z.string().min(8, 'CEP inválido').max(9, 'CEP inválido'),
-  endereco: z.string().min(5, 'Endereço é obrigatório'),
+  rua: z.string().min(5, 'Rua / endereço é obrigatório'),
   numero: z.string().min(1, 'Número é obrigatório'),
   bairro: z.string().min(3, 'Bairro é obrigatório'),
   cidade: z.string().min(3, 'Cidade é obrigatória'),
+  uf: z.string().min(2, 'UF é obrigatória').max(2, 'UF deve ter 2 letras'),
   referencia: z.string().optional(),
   pagamento: z.string().min(1, 'Forma de pagamento é obrigatória'),
   observacoes: z.string().optional(),
@@ -48,44 +62,16 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
       nome: '',
       telefone: '',
       cep: '',
-      endereco: '',
+      rua: '',
       numero: '',
       bairro: '',
       cidade: '',
+      uf: '',
       referencia: '',
       pagamento: '',
       observacoes: '',
     },
   })
-
-  const handleCepBlur = async () => {
-    const cep = form.getValues('cep').replace(/\D/g, '')
-
-    if (cep.length !== 8) return
-
-    try {
-      setIsCepLoading(true)
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
-
-      if (!response.ok) throw new Error('Erro ao buscar CEP')
-
-      const data = await response.json()
-
-      if (data.erro) {
-        toast.error('CEP não encontrado. Confira se digitou corretamente.')
-        return
-      }
-
-      form.setValue('endereco', data.logradouro || '')
-      form.setValue('bairro', data.bairro || '')
-      form.setValue('cidade', data.localidade || '')
-    } catch (error) {
-      console.error(error)
-      toast.error('Não foi possível buscar o CEP. Tente novamente.')
-    } finally {
-      setIsCepLoading(false)
-    }
-  }
 
   const formatPhone = (value: string) => {
     const numbers = value.replace(/\D/g, '')
@@ -94,12 +80,19 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
       return `(${numbers}`
     }
 
+    if (numbers.length <= 3) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`
+    }
+
     if (numbers.length <= 7) {
       return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 3)} ${numbers.slice(3)}`
     }
 
     if (numbers.length <= 11) {
-      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 3)} ${numbers.slice(3, 7)}-${numbers.slice(7)}`
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 3)} ${numbers.slice(
+        3,
+        7,
+      )}-${numbers.slice(7)}`
     }
 
     return value
@@ -118,6 +111,34 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
     }
   }
 
+  const buscarCEP = async (rawCep: string) => {
+    const cep = rawCep.replace(/\D/g, '')
+    if (cep.length !== 8) return
+
+    try {
+      setIsCepLoading(true)
+      const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+      const data = await res.json()
+
+      if (data.erro) {
+        toast.error('CEP não encontrado. Confira se digitou corretamente.')
+        return
+      }
+
+      form.setValue('rua', data.logradouro || '')
+      form.setValue('bairro', data.bairro || '')
+      form.setValue('cidade', data.localidade || '')
+      form.setValue('uf', (data.uf || '').toUpperCase())
+
+      toast.success('CEP encontrado! Endereço preenchido automaticamente.')
+    } catch (error) {
+      console.error(error)
+      toast.error('Não foi possível buscar o CEP. Tente novamente.')
+    } finally {
+      setIsCepLoading(false)
+    }
+  }
+
   async function onSubmit(values: FormValues) {
     const items = getItems()
 
@@ -129,20 +150,18 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
     try {
       setIsLoading(true)
 
-      const url = generateWhatsAppLink({
-        itens: items,
-        dadosCliente: {
-          nome: values.nome,
-          telefone: values.telefone,
-          cep: values.cep,
-          endereco: values.endereco,
-          numero: values.numero,
-          bairro: values.bairro,
-          cidade: values.cidade,
-          referencia: values.referencia,
-          pagamento: values.pagamento,
-          observacoes: values.observacoes,
-        },
+      const url = generateWhatsAppLink(items, {
+        nome: values.nome,
+        telefone: values.telefone,
+        cep: values.cep,
+        rua: values.rua,
+        numero: values.numero,
+        bairro: values.bairro,
+        cidade: values.cidade,
+        uf: values.uf,
+        referencia: values.referencia,
+        pagamento: values.pagamento,
+        observacoes: values.observacoes,
       })
 
       if (onSuccess) {
@@ -150,7 +169,6 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
       }
 
       clearCart()
-
       window.open(url, '_blank')
 
       toast.success('Pedido enviado para o WhatsApp!')
@@ -176,6 +194,7 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {/* Dados pessoais */}
           <div className="space-y-4 rounded-lg bg-purple-50/60 p-4">
             <h3 className="text-sm font-semibold text-purple-900">Dados pessoais</h3>
 
@@ -212,6 +231,7 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
             />
           </div>
 
+          {/* Endereço */}
           <div className="space-y-4 rounded-lg bg-purple-50/60 p-4">
             <h3 className="text-sm font-semibold text-purple-900">Endereço de entrega</h3>
 
@@ -227,7 +247,7 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
                         placeholder="00000-000"
                         value={field.value}
                         onChange={(e) => handleCepChange(e.target.value)}
-                        onBlur={handleCepBlur}
+                        onBlur={(e) => buscarCEP(e.target.value)}
                       />
                     </FormControl>
                     {isCepLoading && (
@@ -255,10 +275,10 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
 
             <FormField
               control={form.control}
-              name="endereco"
+              name="rua"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Endereço</FormLabel>
+                  <FormLabel>Rua / endereço</FormLabel>
                   <FormControl>
                     <Input placeholder="Rua, avenida, condomínio..." {...field} />
                   </FormControl>
@@ -299,12 +319,26 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
 
             <FormField
               control={form.control}
+              name="uf"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>UF</FormLabel>
+                  <FormControl>
+                    <Input placeholder="PE, PB, AL..." maxLength={2} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="referencia"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Ponto de referência</FormLabel>
                   <FormControl>
-                    <Input placeholder="Apartamento, portão verde, perto de..." {...field} />
+                    <Input placeholder="Apartamento, portaria, portão verde..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -312,6 +346,7 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
             />
           </div>
 
+          {/* Pagamento / observações */}
           <div className="space-y-4 rounded-lg bg-purple-50/60 p-4">
             <h3 className="text-sm font-semibold text-purple-900">Pagamento e observações</h3>
 
