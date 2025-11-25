@@ -21,9 +21,12 @@ O erro `TypeError: (0 , n.createContext) is not a function` que estava acontecen
 - Desabilitada otimização de imagens para evitar problemas de contexto
 
 ### 3. Configuração do Vercel (`vercel.json`)
-- Removida configuração `optimizeCss` que causava problemas
+- **REMOVIDA**: propriedade `cleanCache: true` (não suportada pelo Vercel - causa erro "Invalid request")
+- **REMOVIDA**: configuração `optimizeCss` que causava problemas
+- **REMOVIDO**: rewrites problemáticos
 - Adicionada configuração `esmExternals: "loose"` para melhor compatibilidade
-- Melhorada a configuração de rewrites
+- Simplificada a configuração para evitar conflitos
+- Configurações duplicadas removidas
 
 ## Como Fazer o Deploy
 
