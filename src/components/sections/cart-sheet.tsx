@@ -1,5 +1,3 @@
-'use client'
-
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { useCart } from '@/lib/store/cart'
@@ -7,7 +5,6 @@ import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { CheckoutForm } from './checkout-form'
 import { toast } from 'sonner'
 import { Minus, Plus, Trash, ShoppingCart } from '@phosphor-icons/react'
 
@@ -124,7 +121,21 @@ export function CartSheet() {
             </motion.span>
           </div>
 
-          <CheckoutForm onSuccess={() => setIsOpen(false)} />
+          {/* TEMPORARILY REMOVED - DEBUGGING FORM.TSX CONTEXT API ISSUE */}
+          <div className="p-4 border rounded-lg bg-gray-50">
+            <p className="text-center text-gray-600">
+              ✅ Carrinho funcionando: {getTotalItems()} itens
+            </p>
+            <p className="text-center text-sm text-gray-500">
+              🧪 Checkout removido para debug
+            </p>
+            <Button 
+              className="w-full mt-3"
+              onClick={() => toast.info('🧪 Versão de debug - checkout ainda não implementado')}
+            >
+              Finalizar Pedido (Debug)
+            </Button>
+          </div>
         </div>
       </SheetContent>
     </Sheet>
