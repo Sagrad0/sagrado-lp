@@ -8,38 +8,21 @@ import { useCart } from '@/lib/store/cart'
 import { generateWhatsAppLink } from '@/lib/generate-whatsapp-link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from '@/components/ui/form'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { toast } from 'sonner'
-import { CircleNotch } from '@phosphor-icons/react'
+import { Loader2 } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 
 const formSchema = z.object({
   nome: z.string().min(3, 'Nome completo é obrigatório'),
-  telefone: z
-    .string()
-    .min(15, 'Telefone inválido')
-    .max(15, 'Telefone inválido')
-    .regex(/^\(\d{2}\)\s\d\s\d{4}-\d{4}$/, 'Formato inválido. Use (99) 9 9999-9999'),
+  telefone: z.string().optional(),
   cep: z.string().min(8, 'CEP inválido').max(9, 'CEP inválido'),
-  rua: z.string().min(5, 'Rua / endereço é obrigatório'),
+  rua: z.string().min(3, 'Endereço é obrigatório'),
   numero: z.string().min(1, 'Número é obrigatório'),
   bairro: z.string().min(3, 'Bairro é obrigatório'),
   cidade: z.string().min(3, 'Cidade é obrigatória'),
-  uf: z.string().min(2, 'UF é obrigatória').max(2, 'UF deve ter 2 letras'),
+  uf: z.string().min(2, 'UF inválida').max(2, 'UF inválida'),
   referencia: z.string().optional(),
   pagamento: z.string().min(1, 'Forma de pagamento é obrigatória'),
   observacoes: z.string().optional(),
@@ -73,340 +56,283 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
     },
   })
 
-  const formatPhone = (value: string) => {
-    const numbers = value.replace(/\D/g, '')
-
-    if (numbers.length <= 2) {
-      return `(${numbers}`
-    }
-
-    if (numbers.length <= 3) {
-      return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`
-    }
-
-    if (numbers.length <= 7) {
-      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 3)} ${numbers.slice(3)}`
-    }
-
-    if (numbers.length <= 11) {
-      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 3)} ${numbers.slice(
-        3,
-        7,
-      )}-${numbers.slice(7)}`
-    }
-
-    return value
-  }
-
-  const handlePhoneChange = (value: string) => {
-    const formatted = formatPhone(value)
-    form.setValue('telefone', formatted)
-  }
-
-  const handleCepChange = (value: string) => {
-    const numbers = value.replace(/\D/g, '')
-    if (numbers.length <= 8) {
-      const formatted = numbers.replace(/^(\d{5})(\d{3})$/, '$1-$2')
-      form.setValue('cep', formatted)
-    }
-  }
-
-  const buscarCEP = async (rawCep: string) => {
-    const cep = rawCep.replace(/\D/g, '')
-    if (cep.length !== 8) return
-
-    try {
-      setIsCepLoading(true)
-      const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      const data = await res.json()
-
-      if (data.erro) {
-        toast.error('CEP não encontrado. Confira se digitou corretamente.')
-        return
-      }
-
-      form.setValue('rua', data.logradouro || '')
-      form.setValue('bairro', data.bairro || '')
-      form.setValue('cidade', data.localidade || '')
-      form.setValue('uf', (data.uf || '').toUpperCase())
-
-      toast.success('CEP encontrado! Endereço preenchido automaticamente.')
-    } catch (error) {
-      console.error(error)
-      toast.error('Não foi possível buscar o CEP. Tente novamente.')
-    } finally {
-      setIsCepLoading(false)
-    }
-  }
-
-  async function onSubmit(values: FormValues) {
+  const onSubmit = async (data: FormValues) => {
     const items = getItems()
-
     if (items.length === 0) {
-      toast.error('Seu carrinho está vazio.')
+      toast.error('❌ Carrinho vazio', {
+        description: 'Adicione itens antes de finalizar',
+      })
       return
     }
 
+    setIsLoading(true)
+    
     try {
-      setIsLoading(true)
-
-      const url = generateWhatsAppLink(items, {
-        nome: values.nome,
-        telefone: values.telefone,
-        cep: values.cep,
-        rua: values.rua,
-        numero: values.numero,
-        bairro: values.bairro,
-        cidade: values.cidade,
-        uf: values.uf,
-        referencia: values.referencia,
-        pagamento: values.pagamento,
-        observacoes: values.observacoes,
+      const link = generateWhatsAppLink(items, data)
+      
+      toast.success('📱 Abrindo WhatsApp...', {
+        description: 'Aguarde um momento',
       })
-
-      if (onSuccess) {
-        onSuccess()
-      }
-
-      clearCart()
-      window.open(url, '_blank')
-
-      toast.success('Pedido enviado para o WhatsApp!')
+      
+      window.location.href = link
+      
+      setTimeout(() => {
+        clearCart()
+        onSuccess?.()
+      }, 2000)
+      
     } catch (error) {
-      console.error(error)
-      toast.error('Não foi possível enviar seu pedido. Tente novamente.')
+      toast.error('❌ Erro', {
+        description: 'Tente novamente',
+      })
     } finally {
       setIsLoading(false)
     }
   }
 
+  const buscarCEP = async (cep: string) => {
+    if (cep.replace(/\D/g, '').length !== 8) return
+    
+    setIsCepLoading(true)
+    
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+      const data = await res.json()
+      
+      if (!data.erro) {
+        form.setValue('rua', data.logradouro || '')
+        form.setValue('bairro', data.bairro || '')
+        form.setValue('cidade', data.localidade || '')
+        form.setValue('uf', data.uf || '')
+        
+        toast.success('✅ CEP encontrado!', {
+          description: 'Endereço preenchido automaticamente',
+        })
+      } else {
+        toast.error('❌ CEP não encontrado', {
+          description: 'Verifique o CEP digitado ou preencha manualmente',
+        })
+      }
+    } catch (error) {
+      toast.error('❌ Erro ao buscar CEP', {
+        description: 'Verifique sua conexão e tente novamente',
+      })
+    } finally {
+      setIsCepLoading(false)
+    }
+  }
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="rounded-xl border border-purple-100 bg-white/80 p-6 shadow-sm backdrop-blur-sm"
-    >
-      <h2 className="mb-1 text-lg font-semibold text-purple-900">Finalize seu pedido</h2>
-      <p className="mb-6 text-sm text-purple-700">
-        Preencha seus dados para montarmos seu pedido e enviar tudo prontinho para o WhatsApp.
-      </p>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="nome"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome completo *</FormLabel>
+                <FormControl>
+                  <Input placeholder="Seu nome completo" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="telefone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Telefone</FormLabel>
+                <FormControl>
+                  <Input placeholder="(00) 00000-0000" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Dados pessoais */}
-          <div className="space-y-4 rounded-lg bg-purple-50/60 p-4">
-            <h3 className="text-sm font-semibold text-purple-900">Dados pessoais</h3>
-
-            <FormField
-              control={form.control}
-              name="nome"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome completo</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Como está no seu WhatsApp" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="telefone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>WhatsApp</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="(81) 9 9999-9999"
-                      value={field.value}
-                      onChange={(e) => handlePhoneChange(e.target.value)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          {/* Endereço */}
-          <div className="space-y-4 rounded-lg bg-purple-50/60 p-4">
-            <h3 className="text-sm font-semibold text-purple-900">Endereço de entrega</h3>
-
-            <div className="grid gap-4 sm:grid-cols-[1.5fr,1fr]">
-              <FormField
-                control={form.control}
-                name="cep"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormLabel>CEP</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="00000-000"
-                        value={field.value}
-                        onChange={(e) => handleCepChange(e.target.value)}
-                        onBlur={(e) => buscarCEP(e.target.value)}
-                      />
-                    </FormControl>
-                    {isCepLoading && (
-                      <CircleNotch className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-purple-600" />
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="numero"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Número</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Número" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="rua"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Rua / endereço</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Rua, avenida, condomínio..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="bairro"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Bairro</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Seu bairro" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="cidade"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cidade</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Sua cidade" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="uf"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>UF</FormLabel>
-                  <FormControl>
-                    <Input placeholder="PE, PB, AL..." maxLength={2} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="referencia"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ponto de referência</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Apartamento, portaria, portão verde..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          {/* Pagamento / observações */}
-          <div className="space-y-4 rounded-lg bg-purple-50/60 p-4">
-            <h3 className="text-sm font-semibold text-purple-900">Pagamento e observações</h3>
-
-            <FormField
-              control={form.control}
-              name="pagamento"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Forma de pagamento</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione como prefere pagar" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="pix">Pix</SelectItem>
-                      <SelectItem value="credito">Cartão de crédito</SelectItem>
-                      <SelectItem value="debito">Cartão de débito</SelectItem>
-                      <SelectItem value="dinheiro">Dinheiro</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="observacoes"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Alguma observação?</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ex: entregar na portaria, tirar foto da entrega, alergias..."
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="cep"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>CEP *</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input 
+                      placeholder="00000-000" 
                       {...field}
+                      onChange={(e) => {
+                        field.onChange(e)
+                        if (e.target.value.length === 9) {
+                          buscarCEP(e.target.value)
+                        }
+                      }}
+                      disabled={isCepLoading}
+                      className={isCepLoading ? 'pr-10' : ''}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                    {isCepLoading && (
+                      <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-purple-600" />
+                    )}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-          <Button
-            type="submit"
-            className="flex w-full items-center justify-center gap-2 bg-purple-700 text-white hover:bg-purple-800"
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_100px]">
+          <FormField
+            control={form.control}
+            name="rua"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Rua *</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nome da rua" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="numero"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Número *</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nº" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="bairro"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bairro *</FormLabel>
+                <FormControl>
+                  <Input placeholder="Seu bairro" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="cidade"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cidade *</FormLabel>
+                <FormControl>
+                  <Input placeholder="Sua cidade" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="uf"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Estado *</FormLabel>
+                <FormControl>
+                  <Input placeholder="UF" maxLength={2} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="referencia"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Referência</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ponto de referência" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <FormField
+          control={form.control}
+          name="pagamento"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Forma de pagamento *</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="PIX">PIX</SelectItem>
+                  <SelectItem value="Crédito">Cartão de crédito</SelectItem>
+                  <SelectItem value="Débito">Cartão de débito</SelectItem>
+                  <SelectItem value="Dinheiro">Dinheiro</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="observacoes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Observações</FormLabel>
+              <FormControl>
+                <textarea 
+                  placeholder="Alguma observação sobre seu pedido?"
+                  className="min-h-[80px] w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <Button 
+            type="submit" 
+            className="w-full h-12 text-base font-semibold"
             disabled={isLoading}
           >
-            {isLoading && <CircleNotch className="mr-2 h-5 w-5 animate-spin" />}
-            <span>Finalizar pedido no WhatsApp</span>
+            {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+            <span className="flex items-center gap-2">
+              Finalizar pedido no WhatsApp
+            </span>
           </Button>
-
-          <p className="text-xs text-purple-600">
-            Ao continuar, você será redirecionado para uma conversa no WhatsApp com seu pedido
-            montado. Nenhuma cobrança é feita pelo site.
-          </p>
-        </form>
-      </Form>
-    </motion.div>
+        </motion.div>
+      </form>
+    </Form>
   )
 }
