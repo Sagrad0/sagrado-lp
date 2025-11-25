@@ -25,17 +25,28 @@ const nextConfig: NextConfig = {
     },
   },
 
-  // Configuração para resolver problemas de build
+  // Configuração robusta para resolver problemas de React Context
   webpack: (config, { isServer }) => {
-    // Resolver problemas com contextos React
+    // Resolver problemas com contextos React - configuração mais robusta
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
         net: false,
         tls: false,
+        // Forçar resolução de módulos React
+        'react': require.resolve('react'),
+        'react-dom': require.resolve('react-dom'),
       };
     }
+    
+    // Resolver problemas de Module Federation e contextos
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: false,
+      syncWebAssembly: true,
+    };
+    
     return config;
   },
 };
