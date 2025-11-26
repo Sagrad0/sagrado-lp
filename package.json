@@ -21,8 +21,8 @@
     "framer-motion": "^10.16.16",
     "lucide-react": "^0.303.0",
     "next": "14.2.12",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-hook-form": "^7.48.2",
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.0",
@@ -45,7 +45,7 @@
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
   },
-  "resolutions": {
+  "overrides": {
     "react": "18.3.1",
     "react-dom": "18.3.1"
   }
