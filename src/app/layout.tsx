@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     siteName: 'Sagrado',
     images: [
       {
-        url: '/social-banner.svg',
+        url: images/sagrado-social-banner.png,
         width: 2048,
         height: 683,
         alt: 'Sagrado - Kits ultracongelados'
