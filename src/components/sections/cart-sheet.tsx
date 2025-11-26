@@ -1,12 +1,15 @@
-import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
-import { useCart } from '@/lib/store/cart'
-import { formatPrice } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { toast } from 'sonner'
-import { Minus, Plus, Trash, ShoppingCart } from '@phosphor-icons/react'
+@@
++"use client"
+ import { motion, AnimatePresence } from 'framer-motion'
+ import { useState } from 'react'
+ import { useCart } from '@/lib/store/cart'
+ import { formatPrice } from '@/lib/utils'
+ import { Button } from '@/components/ui/button'
+ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+ import { ScrollArea } from '@/components/ui/scroll-area'
+ import { toast } from 'sonner'
+ import { Minus, Plus, Trash, ShoppingCart } from '@phosphor-icons/react'
+
 
 export function CartSheet() {
   const { items, removeItem, updateQty, getTotalItems, getSubtotal } = useCart()
