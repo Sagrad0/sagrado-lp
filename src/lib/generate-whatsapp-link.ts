@@ -15,37 +15,42 @@ export interface CheckoutData {
   observacoes?: string
 }
 
-export function formatPrice(value: number): string {
-  return value.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  })
-}
-
 export function generateWhatsAppLink(items: CartItem[], data: CheckoutData): string {
-  let msg = '🍕 *Novo pedido Sagrado*\n\n'
-  msg += '*Produtos:*\n'
-  msg += items.map(item => `• ${item.qty}x ${item.name} – ${formatPrice(item.qty * item.price)}`).join('\n')
-  msg += `\n\n*Subtotal:* ${formatPrice(getSubtotal(items))}\n\n`
+  if (!items.length) {
+    throw new Error('Carrinho vazio')
+  }
+
+  let msg = '*Novo pedido – Sagrado*\n\n'
+
   msg += `*Cliente:* ${data.nome}\n`
   if (data.telefone) {
     msg += `*Telefone:* ${data.telefone}\n`
   }
-  msg += '\n'
-  
-  let enderecoCompleto = `*Endereço:* ${data.rua}, ${data.numero} - ${data.bairro} - ${data.cidade}/${data.uf}`
-  if (data.cep) enderecoCompleto += ` – CEP ${data.cep}`
-  msg += `${enderecoCompleto}\n`
 
+  msg += '\n*Itens do pedido:*\n'
+  items.forEach(item => {
+    const unit = item.price.toFixed(2).replace('.', ',')
+    const total = (item.price * item.qty).toFixed(2).replace('.', ',')
+    msg += `• ${item.qty}x ${item.name} – R$ ${unit} (subtotal R$ ${total})\n`
+  })
+
+  const totalGeral = items.reduce((acc, item) => acc + item.price * item.qty, 0)
+  msg += `\n*Total:* R$ ${totalGeral.toFixed(2).replace('.', ',')}\n`
+
+  msg += '\n*Endereço de entrega:*\n'
+  msg += `${data.rua}, ${data.numero}\n`
+  msg += `${data.bairro} – ${data.cidade}/${data.uf}\n`
+  msg += `CEP: ${data.cep}\n`
   if (data.referencia) {
-    msg += `*Referência:* ${data.referencia}\n\n`
+    msg += `Referência: ${data.referencia}\n`
   }
 
-  msg += `*Forma de pagamento:* ${data.pagamento}\n`
+  msg += `\n*Forma de pagamento:* ${data.pagamento}\n`
   if (data.observacoes) {
     msg += `\n*Observações:* ${data.observacoes}\n`
   }
-  msg += `\n🙏 Obrigado por escolher o Sagrado!`
+
+  msg += '\n🙏 Obrigado por escolher o Sagrado!'
 
   const encodedMsg = encodeURIComponent(msg)
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`
