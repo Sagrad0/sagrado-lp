@@ -8,57 +8,58 @@ import { motion } from 'framer-motion'
 
 export function Header() {
   return (
-    <>
-      {/* Faixa superior no rosa Sagrado */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-[#F4439D] z-[60]" />
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: 'spring', stiffness: 120, damping: 18 }}
+      className="fixed top-0 z-50 w-full bg-[#F4439D] shadow-sm" // 👈 barra inteira rosa
+    >
+      <div className="container mx-auto px-4 py-3 md:py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo com leve animação no hover */}
+          <motion.div whileHover={{ scale: 1.05 }}>
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/images/sagrado-logo.png"
+                alt="Sagrado"
+                width={120}
+                height={60}
+                className="h-auto"
+                priority
+              />
+            </Link>
+          </motion.div>
 
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 120, damping: 18 }}
-        className="fixed top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-sm"
-      >
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <motion.div whileHover={{ scale: 1.05 }}>
-              <Link href="/" className="flex items-center gap-2">
-                <Image
-                  src="/images/sagrado-logo.png"
-                  alt="Sagrado"
-                  width={120}
-                  height={60}
-                  className="h-auto"
-                  priority
-                />
-              </Link>
-            </motion.div>
+          <div className="flex items-center gap-3">
+            {/* Link Ver kits com texto claro em cima do rosa */}
+            <Button
+              variant="ghost"
+              className="hidden font-semibold text-white/90 hover:text-white md:inline-flex"
+              onClick={() => {
+                const el = document.getElementById('kits')
+                if (el) el.scrollIntoView({ behavior: 'smooth' })
+              }}
+            >
+              Ver kits
+            </Button>
 
-            <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                className="hidden font-semibold text-gray-700 hover:text-purple-700 md:inline-flex"
-                onClick={() => {
-                  const el = document.getElementById('kits')
-                  if (el) el.scrollIntoView({ behavior: 'smooth' })
-                }}
+            {/* Botão WhatsApp branco pra destacar */}
+            <Button
+              asChild
+              className="gap-2 font-semibold bg-white text-purple-700 hover:bg-purple-50"
+            >
+              <a
+                href="https://wa.me/5581999874547"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Ver kits
-              </Button>
-
-              <Button asChild className="gap-2 font-semibold">
-                <a
-                  href="https://wa.me/5581999874547"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <WhatsappLogo className="h-5 w-5" weight="fill" />
-                  WhatsApp
-                </a>
-              </Button>
-            </div>
+                <WhatsappLogo className="h-5 w-5" weight="fill" />
+                WhatsApp
+              </a>
+            </Button>
           </div>
         </div>
-      </motion.header>
-    </>
+      </div>
+    </motion.header>
   )
 }
