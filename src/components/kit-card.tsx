@@ -54,7 +54,7 @@ export function KitCard({ kit }: KitCardProps) {
         <div className="absolute -inset-x-1/2 -inset-y-1/2 h-[200%] w-[200%] rotate-45 bg-gradient-to-r from-transparent via-purple-500/5 to-transparent" />
       </div>
 
-      {/* Área da imagem com altura fixa pra alinhar todos os cards */}
+      {/* Imagem com altura fixa pra alinhar os cards */}
       <div className="relative h-56 w-full overflow-hidden">
         <Image
           src={kit.img}
@@ -101,15 +101,19 @@ export function KitCard({ kit }: KitCardProps) {
         <p className="mb-3 text-sm text-gray-600">{kit.description}</p>
         <p className="mb-4 text-xs text-gray-500">{kit.portions}</p>
 
-        {/* Footer fixo na base do card */}
-        <div className="mt-auto flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-2xl font-bold text-purple-600">
-            {formatPrice(kit.price)}
-          </span>
+        {/* Rodapé: duas linhas */}
+        <div className="mt-auto pt-3">
+          {/* Linha 1: preço */}
+          <div className="mb-3">
+            <span className="text-2xl font-bold text-purple-600">
+              {formatPrice(kit.price)}
+            </span>
+          </div>
 
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-end">
+          {/* Linha 2: quantidade + botão Add */}
+          <div className="flex items-center gap-3">
             {/* Quantidade */}
-            <div className="flex items-center justify-between rounded-full border border-gray-200 bg-gray-50 px-2 py-1 sm:justify-center">
+            <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 px-2 py-1">
               <Button
                 type="button"
                 variant="ghost"
@@ -117,7 +121,7 @@ export function KitCard({ kit }: KitCardProps) {
                 className="h-10 w-10 rounded-full"
                 onClick={() => handleQtyChange(-1)}
               >
-                <Minus className="h-6 w-6" />
+                <Minus className="h-5 w-5" />
               </Button>
 
               <span className="mx-2 min-w-[2.5rem] text-center text-base font-semibold text-gray-900 tabular-nums">
@@ -131,7 +135,7 @@ export function KitCard({ kit }: KitCardProps) {
                 className="h-10 w-10 rounded-full"
                 onClick={() => handleQtyChange(1)}
               >
-                <Plus className="h-6 w-6" />
+                <Plus className="h-5 w-5" />
               </Button>
             </div>
 
@@ -139,7 +143,7 @@ export function KitCard({ kit }: KitCardProps) {
             <Button
               type="button"
               onClick={handleAdd}
-              className="w-full rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:from-purple-700 hover:to-purple-800 hover:shadow-lg sm:w-auto"
+              className="flex-1 rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:from-purple-700 hover:to-purple-800 hover:shadow-lg"
             >
               <span className="flex items-center justify-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
