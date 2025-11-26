@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { ScrollReveal } from './scroll-reveal'
+import { ScrollReveal } from '@/components/scroll-reveal'
 import { Button } from '@/components/ui/button'
 
 export function Hero() {
