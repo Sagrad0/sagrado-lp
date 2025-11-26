@@ -44,9 +44,7 @@
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
-  }
-}
-{
+  },
   "resolutions": {
     "react": "18.3.1",
     "react-dom": "18.3.1"
