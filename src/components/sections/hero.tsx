@@ -67,7 +67,7 @@ export function Hero() {
               className="relative"
             >
               <Image
-                src="/images/hero.svg"
+                src=images/hero-kit-sagrado.png
                 alt="Produtos Sagrado"
                 width={500}
                 height={400}
