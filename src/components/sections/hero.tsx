@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Leaf, CheckCircle, Clock } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import { ScrollReveal } from '@/components/scroll-reveal'
+import { ArrowRight } from 'lucide-react'
 
 interface FeatureCardProps {
   icon: React.ReactNode
