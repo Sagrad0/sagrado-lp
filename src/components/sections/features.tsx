@@ -1,3 +1,4 @@
+"use client"
 import { Leaf, CheckCircle, Clock } from '@phosphor-icons/react'
 import { ScrollReveal } from '@/components/scroll-reveal'
 
