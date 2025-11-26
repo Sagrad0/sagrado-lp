@@ -7,7 +7,7 @@ export interface CartItem extends Kit {
 
 interface CartState {
   items: Record<string, CartItem>
-  addItem: (kit: Kit, qty: number) => void
+  addItem: (kit: Kit, qty?: number) => void
   removeItem: (kitId: string) => void
   updateQty: (kitId: string, qty: number) => void
   clearCart: () => void
@@ -16,90 +16,106 @@ interface CartState {
   getItems: () => CartItem[]
 }
 
-// Store simplificado para evitar uso de Context API no SSR
+const STORAGE_KEY = 'sagrado-cart'
+
+const readFromStorage = (): Record<string, CartItem> => {
+  if (typeof window === 'undefined') return {}
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY)
+    if (!raw) return {}
+    const parsed = JSON.parse(raw)
+    if (parsed && typeof parsed === 'object' && parsed.items) {
+      return parsed.items as Record<string, CartItem>
+    }
+    return {}
+  } catch {
+    return {}
+  }
+}
+
+const writeToStorage = (items: Record<string, CartItem>) => {
+  if (typeof window === 'undefined') return
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ items }))
+  } catch {
+    // ignora erro de storage
+  }
+}
+
 export const useCart = create<CartState>((set, get) => ({
   items: {},
 
-  addItem: (kit, qty) => {
+  addItem: (kit, qty = 1) => {
     if (qty <= 0) return
-    if (typeof window === 'undefined') return
+    set(state => {
+      const current = state.items ?? {}
+      const existing = current[kit.id]
+      const nextQty = (existing?.qty ?? 0) + qty
 
-    try {
-      const current = get().items || {}
-      const newQty = (current[kit.id]?.qty || 0) + qty
-
-      const newItems = {
+      const nextItems: Record<string, CartItem> = {
         ...current,
-        [kit.id]: { ...kit, qty: newQty },
+        [kit.id]: { ...kit, qty: nextQty },
       }
 
-      set({ items: newItems })
-      localStorage.setItem('sagrado-cart', JSON.stringify({ items: newItems }))
-    } catch (error) {
-      console.warn('Error saving to localStorage:', error)
-    }
+      writeToStorage(nextItems)
+      return { items: nextItems }
+    })
   },
 
-  removeItem: (kitId) => {
-    if (typeof window === 'undefined') return
-
-    try {
-      const current = get().items || {}
-      const newItems = { ...current }
-      delete newItems[kitId]
-
-      set({ items: newItems })
-      localStorage.setItem('sagrado-cart', JSON.stringify({ items: newItems }))
-    } catch (error) {
-      console.warn('Error removing from localStorage:', error)
-    }
+  removeItem: kitId => {
+    set(state => {
+      const current: Record<string, CartItem> = { ...(state.items ?? {}) }
+      delete current[kitId]
+      writeToStorage(current)
+      return { items: current }
+    })
   },
 
   updateQty: (kitId, qty) => {
-    if (qty <= 0 || typeof window === 'undefined') return
-
-    try {
-      const current = get().items || {}
+    set(state => {
+      const current: Record<string, CartItem> = { ...(state.items ?? {}) }
       const item = current[kitId]
-      if (item) {
-        const newItems = {
-          ...current,
-          [kitId]: { ...item, qty },
-        }
-        set({ items: newItems })
-        localStorage.setItem('sagrado-cart', JSON.stringify({ items: newItems }))
+      if (!item) return { items: current }
+
+      if (qty <= 0) {
+        delete current[kitId]
+      } else {
+        current[kitId] = { ...item, qty }
       }
-    } catch (error) {
-      console.warn('Error updating localStorage:', error)
-    }
+
+      writeToStorage(current)
+      return { items: current }
+    })
   },
 
   clearCart: () => {
-    if (typeof window === 'undefined') return
-
-    try {
-      set({ items: {} })
-      localStorage.setItem('sagrado-cart', JSON.stringify({ items: {} }))
-    } catch (error) {
-      console.warn('Error clearing localStorage:', error)
-    }
+    writeToStorage({})
+    set({ items: {} })
   },
 
   getTotalItems: () => {
-    const items = get().items || {}
-    return Object.values(items).reduce((acc: number, item: any) => acc + (item.qty || 0), 0)
+    const items = get().items ?? {}
+    return Object.values(items).reduce((total, item) => total + (item.qty || 0), 0)
   },
 
   getSubtotal: () => {
-    const items = get().items || {}
+    const items = get().items ?? {}
     return Object.values(items).reduce(
-      (acc: number, item: any) => acc + (item.price * item.qty || 0),
+      (acc, item) => acc + (item.price * item.qty || 0),
       0,
     )
   },
 
   getItems: () => {
-    const items = get().items || {}
+    const items = get().items ?? {}
     return Object.values(items)
   },
 }))
+
+// Hidrata o estado inicial no client com o que estiver salvo no localStorage
+if (typeof window !== 'undefined') {
+  const initial = readFromStorage()
+  if (Object.keys(initial).length > 0) {
+    useCart.setState({ items: initial })
+  }
+}
