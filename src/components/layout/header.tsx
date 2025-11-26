@@ -20,7 +20,7 @@ export function Header() {
           <motion.div whileHover={{ scale: 1.05 }}>
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src="/logo.svg"
+                src="public/images/sagrado-logo.png"
                 alt="Sagrado"
                 width={120}
                 height={60}
