@@ -1,40 +1,40 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useCart } from '@/lib/store/cart';
-import { Kit } from '@/lib/constants/kits';
-import { formatPrice } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
-import { Plus, Minus, ShoppingCart } from '@phosphor-icons/react';
+import { useState } from 'react'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useCart } from '@/lib/store/cart'
+import { Kit } from '@/lib/constants/kits'
+import { formatPrice } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
+import { Plus, Minus, ShoppingCart } from '@phosphor-icons/react'
 
 interface KitCardProps {
-  kit: Kit;
+  kit: Kit
 }
 
 export function KitCard({ kit }: KitCardProps) {
-  const [qty, setQty] = useState(0);
-  const { addItem } = useCart();
-  const [isAdded, setIsAdded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [qty, setQty] = useState(0)
+  const { addItem } = useCart()
+  const [isAdded, setIsAdded] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   function handleAdd() {
-    const quantity = qty <= 0 ? 1 : qty;
-    addItem(kit, quantity);
+    const quantity = qty <= 0 ? 1 : qty
+    addItem(kit, quantity)
 
-    setIsAdded(true);
+    setIsAdded(true)
     toast.success('✅ Adicionado ao carrinho!', {
       description: `${kit.name} (${quantity}x)`,
-    });
+    })
 
-    setTimeout(() => setIsAdded(false), 2000);
-    setQty(0);
+    setTimeout(() => setIsAdded(false), 2000)
+    setQty(0)
   }
 
   function handleQtyChange(delta: number) {
-    setQty((prev) => Math.max(0, prev + delta));
+    setQty(prev => Math.max(0, prev + delta))
   }
 
   return (
@@ -54,13 +54,14 @@ export function KitCard({ kit }: KitCardProps) {
         <div className="absolute -inset-x-1/2 -inset-y-1/2 h-[200%] w-[200%] rotate-45 bg-gradient-to-r from-transparent via-purple-500/5 to-transparent" />
       </div>
 
-      <div className="relative">
+      {/* Área da imagem com altura fixa pra alinhar todos os cards */}
+      <div className="relative h-56 w-full overflow-hidden">
         <Image
           src={kit.img}
           alt={kit.name}
-          width={400}
-          height={250}
-          className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
         />
 
         {/* Badge animado */}
@@ -92,6 +93,7 @@ export function KitCard({ kit }: KitCardProps) {
         </AnimatePresence>
       </div>
 
+      {/* Conteúdo */}
       <div className="relative z-10 flex flex-1 flex-col p-6">
         <h3 className="mb-2 text-xl font-serif font-bold text-gray-900 transition-colors group-hover:text-purple-700">
           {kit.name}
@@ -99,26 +101,26 @@ export function KitCard({ kit }: KitCardProps) {
         <p className="mb-3 text-sm text-gray-600">{kit.description}</p>
         <p className="mb-4 text-xs text-gray-500">{kit.portions}</p>
 
-        {/* Footer: preço + quantidade + botão Add */}
-        <div className="mt-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        {/* Footer fixo na base do card */}
+        <div className="mt-auto flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-2xl font-bold text-purple-600">
             {formatPrice(kit.price)}
           </span>
 
-          <div className="flex w-full items-center gap-3 sm:w-auto sm:justify-end">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-end">
             {/* Quantidade */}
-            <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 px-1">
+            <div className="flex items-center justify-between rounded-full border border-gray-200 bg-gray-50 px-2 py-1 sm:justify-center">
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="rounded-full"
+                className="h-10 w-10 rounded-full"
                 onClick={() => handleQtyChange(-1)}
               >
-                <Minus className="h-5 w-5" />
+                <Minus className="h-6 w-6" />
               </Button>
 
-              <span className="w-10 text-center text-sm font-semibold text-gray-900 tabular-nums">
+              <span className="mx-2 min-w-[2.5rem] text-center text-base font-semibold text-gray-900 tabular-nums">
                 {qty}
               </span>
 
@@ -126,10 +128,10 @@ export function KitCard({ kit }: KitCardProps) {
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="rounded-full"
+                className="h-10 w-10 rounded-full"
                 onClick={() => handleQtyChange(1)}
               >
-                <Plus className="h-5 w-5" />
+                <Plus className="h-6 w-6" />
               </Button>
             </div>
 
@@ -137,7 +139,7 @@ export function KitCard({ kit }: KitCardProps) {
             <Button
               type="button"
               onClick={handleAdd}
-              className="relative flex-1 overflow-hidden rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:from-purple-700 hover:to-purple-800 hover:shadow-lg sm:flex-none"
+              className="w-full rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:from-purple-700 hover:to-purple-800 hover:shadow-lg sm:w-auto"
             >
               <span className="flex items-center justify-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
@@ -148,5 +150,5 @@ export function KitCard({ kit }: KitCardProps) {
         </div>
       </div>
     </motion.div>
-  );
+  )
 }
