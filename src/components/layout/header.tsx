@@ -12,7 +12,7 @@ export function Header() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: 'spring', stiffness: 120, damping: 18 }}
-      className="fixed top-0 z-50 w-full bg-[#F4439D] shadow-sm" // 👈 barra inteira rosa
+      className="fixed top-0 z-50 w-full bg-[#F4439D] shadow-sm"
     >
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between">
@@ -31,10 +31,10 @@ export function Header() {
           </motion.div>
 
           <div className="flex items-center gap-3">
-            {/* Link Ver kits com texto claro em cima do rosa */}
+            {/* Ver kits – pill clara sobre o rosa */}
             <Button
-              variant="ghost"
-              className="hidden font-semibold text-white/90 hover:text-white md:inline-flex"
+              variant="outline"
+              className="hidden rounded-full border-white/40 bg-white/15 px-5 py-2 text-sm font-semibold text-white shadow-sm backdrop-blur hover:bg-white/25 hover:text-white md:inline-flex"
               onClick={() => {
                 const el = document.getElementById('kits')
                 if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -43,10 +43,11 @@ export function Header() {
               Ver kits
             </Button>
 
-            {/* Botão WhatsApp branco pra destacar */}
+            {/* WhatsApp – botão branco destacado */}
             <Button
               asChild
-              className="gap-2 font-semibold bg-white text-purple-700 hover:bg-purple-50"
+              variant="outline"
+              className="gap-2 rounded-full border-transparent bg-white px-5 py-2 text-sm font-semibold text-[#5E2BBF] shadow-md hover:bg-white/90"
             >
               <a
                 href="https://wa.me/5581999874547"
