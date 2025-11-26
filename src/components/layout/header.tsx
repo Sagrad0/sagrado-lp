@@ -17,7 +17,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           <motion.div whileHover={{ scale: 1.05 }}>
             <Image
-              src="/logo.svg"
+              src=/images/sagrado-logo.png
               alt="Sagrado"
               width={120}
               height={60}
