@@ -1,5 +1,4 @@
-@@
-+"use client"
+"use client"
  import { motion, AnimatePresence } from 'framer-motion'
  import { useState } from 'react'
  import { useCart } from '@/lib/store/cart'
