@@ -1,11 +1,8 @@
 'use client'
 
 import Image from 'next/image'
+import { ScrollReveal } from './scroll-reveal'
 import { Button } from '@/components/ui/button'
-import { Leaf } from '@phosphor-icons/react'
-import { motion } from 'framer-motion'
-import { ScrollReveal } from '@/components/scroll-reveal'
-// import { ArrowRight } from 'lucide-react' // pode remover se não estiver usando
 
 export function Hero() {
   return (
@@ -14,68 +11,67 @@ export function Hero() {
         <div className="grid items-center gap-12 md:grid-cols-2">
           <ScrollReveal>
             <div className="space-y-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-100 to-purple-200 px-4 py-2 text-sm font-semibold text-purple-700"
-              >
-                <Leaf className="h-4 w-4" weight="fill" />
-                Rótulo limpo, sem glúten/lactose
-              </motion.div>
-              
-              <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.5 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-tight text-balance bg-gradient-to-r from-gray-900 to-purple-700 bg-clip-text text-transparent"
-              >
-                Comida de verdade sem você virar refém da cozinha
-              </motion.h1>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="text-lg text-gray-600 text-balance"
-              >
-                Kits ultracongelados de pizzas e salgados, feitos com ingredientes de verdade, 
-                rótulo curto e opções sem glúten e sem lactose pra casa toda.
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="flex flex-col gap-3 sm:flex-row"
-              >
-                <Button size="lg" className="text-base font-semibold">
-                  Ver kits
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-purple-600">
+                SAGRADO
+              </p>
+              <h1 className="text-3xl font-semibold leading-tight text-gray-900 md:text-4xl lg:text-5xl">
+                Comer bem é sagrado.
+                <span className="block text-purple-700">
+                  Sem virar refém da cozinha.
+                </span>
+              </h1>
+              <p className="max-w-xl text-base text-gray-600 md:text-lg">
+                Kits ultracongelados de comida de verdade, com rótulo limpo e
+                opções sem glúten e sem lactose. Você monta o pedido, a gente
+                cuida do resto.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <Button asChild size="lg" className="rounded-full px-6">
+                  <a href="#kits">Ver kits disponíveis</a>
                 </Button>
-                <Button size="lg" variant="outline" className="text-base font-semibold">
-                  Falar no WhatsApp
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="rounded-full border-purple-200 bg-white/70 text-purple-700 backdrop-blur"
+                >
+                  <a
+                    href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Falar com atendimento
+                  </a>
                 </Button>
-              </motion.div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 md:text-sm">
+                <span>🍽️ Kits pra família toda</span>
+                <span>•</span>
+                <span>❄️ Ultracongelados – sem perder qualidade</span>
+                <span>•</span>
+                <span>📍 Recife &amp; região</span>
+              </div>
             </div>
           </ScrollReveal>
-          
-          <ScrollReveal>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
-              className="relative"
-            >
-              <Image
-                src=/images/hero-kit-sagrado.png
-                alt="Produtos Sagrado"
-                width={500}
-                height={400}
-                className="rounded-2xl shadow-2xl"
-                priority
-              />
-              <div className="absolute -inset-4 rounded-2xl bg-gradient-to-r from-purple-400/10 to-purple-600/10 blur-2xl" />
-            </motion.div>
+
+          <ScrollReveal delay={0.1}>
+            <div className="relative">
+              <div className="relative mx-auto max-w-md">
+                <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-tr from-purple-100 via-transparent to-yellow-100" />
+                <div className="relative overflow-hidden rounded-[2rem] border border-purple-100 bg-white shadow-xl shadow-purple-100/50">
+                  <Image
+                    src="/images/hero-kit-sagrado.png"
+                    alt="Kits Sagrado"
+                    width={640}
+                    height={480}
+                    className="h-auto w-full object-cover"
+                    priority
+                  />
+                </div>
+              </div>
+            </div>
           </ScrollReveal>
         </div>
       </div>
