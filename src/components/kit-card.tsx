@@ -1,40 +1,40 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
-import { useCart } from '@/lib/store/cart'
-import { Kit } from '@/lib/constants/kits'
-import { formatPrice } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
-import { Plus, Minus, ShoppingCart } from '@phosphor-icons/react'
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useCart } from '@/lib/store/cart';
+import { Kit } from '@/lib/constants/kits';
+import { formatPrice } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+import { Plus, Minus, ShoppingCart } from '@phosphor-icons/react';
 
 interface KitCardProps {
-  kit: Kit
+  kit: Kit;
 }
 
 export function KitCard({ kit }: KitCardProps) {
-  const [qty, setQty] = useState(0)
-  const { addItem } = useCart()
-  const [isAdded, setIsAdded] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
+  const [qty, setQty] = useState(0);
+  const { addItem } = useCart();
+  const [isAdded, setIsAdded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const handleAdd = () => {
-    const quantity = qty <= 0 ? 1 : qty
-    addItem(kit, quantity)
+  function handleAdd() {
+    const quantity = qty <= 0 ? 1 : qty;
+    addItem(kit, quantity);
 
-    setIsAdded(true)
+    setIsAdded(true);
     toast.success('✅ Adicionado ao carrinho!', {
       description: `${kit.name} (${quantity}x)`,
-    })
+    });
 
-    setTimeout(() => setIsAdded(false), 2000)
-    setQty(0)
+    setTimeout(() => setIsAdded(false), 2000);
+    setQty(0);
   }
 
-  const handleQtyChange = (delta: number) => {
-    setQty((prev) => Math.max(0, prev + delta))
+  function handleQtyChange(delta: number) {
+    setQty((prev) => Math.max(0, prev + delta));
   }
 
   return (
@@ -106,7 +106,7 @@ export function KitCard({ kit }: KitCardProps) {
           </span>
 
           <div className="flex w-full items-center gap-3 sm:w-auto sm:justify-end">
-            {/* Controle de quantidade */}
+            {/* Quantidade */}
             <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 px-1">
               <Button
                 type="button"
@@ -135,5 +135,18 @@ export function KitCard({ kit }: KitCardProps) {
 
             {/* Botão Add */}
             <Button
+              type="button"
               onClick={handleAdd}
-              className="relative flex-1 overflow-hidden rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:fro
+              className="relative flex-1 overflow-hidden rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:from-purple-700 hover:to-purple-800 hover:shadow-lg sm:flex-none"
+            >
+              <span className="flex items-center justify-center gap-2">
+                <ShoppingCart className="h-4 w-4" />
+                {qty > 0 ? `Add (${qty})` : 'Add'}
+              </span>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
