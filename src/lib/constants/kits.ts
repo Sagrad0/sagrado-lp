@@ -15,7 +15,7 @@ export const KITS: Kit[] = [
     description: 'Kit completo pra semana da família.',
     price: 169.90,
     portions: '3 pizzas, 1 mini coxinha (6und), 1 tortinha (3und), 2 dadinhos',
-    img: '/kits/kit-premium.svg',
+    img: '/kits/kits/kit-premium.png',
     tags: ['premium', 'família', 'completo']
   },
   {
@@ -24,7 +24,7 @@ export const KITS: Kit[] = [
     description: 'Noite da pizza reforçada, com salgadinho pra acompanhar.',
     price: 85.90,
     portions: '3 pizzas (Margherita/Calabresa/Frango), 1 mini coxinha (6und)',
-    img: '/kits/kit-pizza-mini.svg',
+    img: '/kits/kits/kit-pizza-mini.png',
     tags: ['pizza', 'salgado', 'refeição']
   },
   {
@@ -33,7 +33,7 @@ export const KITS: Kit[] = [
     description: 'Petisco oficial da casa, pronto pra qualquer momento.',
     price: 58.90,
     portions: '3 pacotes de dadinho 250g',
-    img: '/kits/kit-dadinhos.svg',
+    img: '/kits/kits/kit-dadinhos.png',
     tags: ['petisco', 'prático', 'tapioca']
   },
   {
@@ -42,7 +42,7 @@ export const KITS: Kit[] = [
     description: 'Dois clássicos sempre à mão no freezer.',
     price: 39.90,
     portions: '1 mini coxinha (6und), 1 tortinha salgada (3und)',
-    img: '/kits/kit-duo-salgados.svg',
+    img: '/kits/kits/kit-duo-salgados.png',
     tags: ['duo', 'econômico', 'essencial']
   }
 ]
