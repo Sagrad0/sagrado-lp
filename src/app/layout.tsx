@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Comer bem é sagrado – Kits ultracongelados pra família toda',
     description: 'Kits ultracongelados de comida de verdade, com rótulo limpo e opções sem glúten e sem lactose. Monte seu pedido online e finalize no WhatsApp.',
-    images: [/sagrado-social-banner.png],
+    images: ['/sagrado-social-banner.png'],
   },
   robots: {
     index: true,
