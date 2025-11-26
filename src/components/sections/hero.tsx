@@ -2,16 +2,10 @@
 
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { Leaf, CheckCircle, Clock } from '@phosphor-icons/react'
+import { Leaf } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import { ScrollReveal } from '@/components/scroll-reveal'
-import { ArrowRight } from 'lucide-react'
-
-interface FeatureCardProps {
-  icon: React.ReactNode
-  title: string
-  description: string
-}
+// import { ArrowRight } from 'lucide-react' // pode remover se não estiver usando
 
 export function Hero() {
   return (
@@ -80,51 +74,11 @@ export function Hero() {
                 className="rounded-2xl shadow-2xl"
                 priority
               />
-              {/* Glow effect */}
               <div className="absolute -inset-4 rounded-2xl bg-gradient-to-r from-purple-400/10 to-purple-600/10 blur-2xl" />
             </motion.div>
           </ScrollReveal>
         </div>
-
-        <div className="mt-16 grid gap-6 sm:grid-cols-3">
-          <ScrollReveal>
-            <FeatureCard 
-              icon={<Leaf weight="fill" />}
-              title="Rótulo limpo"
-              description="Ingredientes de verdade, sem firula, que você reconhece e confia."
-            />
-          </ScrollReveal>
-          <ScrollReveal>
-            <FeatureCard 
-              icon={<CheckCircle weight="fill" />}
-              title="Sem glúten/lactose"
-              description="Linha pensada pra quem precisa cuidar das restrições alimentares."
-            />
-          </ScrollReveal>
-          <ScrollReveal>
-            <FeatureCard 
-              icon={<Clock weight="fill" />}
-              title="Práticos"
-              description="Do freezer pra mesa em poucos minutos: forno, air fryer ou micro-ondas."
-            />
-          </ScrollReveal>
-        </div>
       </div>
     </section>
-  )
-}
-
-function FeatureCard({ icon, title, description }: FeatureCardProps) {
-  return (
-    <div className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      <div className="relative z-10">
-        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 transition-transform group-hover:scale-110">
-          {icon}
-        </div>
-        <h3 className="mb-2 font-serif text-lg font-bold text-gray-900">{title}</h3>
-        <p className="text-sm text-gray-600">{description}</p>
-      </div>
-    </div>
   )
 }
