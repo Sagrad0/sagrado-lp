@@ -1,3 +1,4 @@
+"use client"
 import { WhatsappLogo } from '@phosphor-icons/react'
 
 export function Footer() {
