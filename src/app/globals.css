@@ -1,3 +1,4 @@
+```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -44,7 +45,9 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     font-family: 'Playfair Display', serif;
     @apply font-bold tracking-tight;
   }
@@ -54,4 +57,11 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Afasta os toasts do Sonner da borda inferior
+     para não cobrir o botão fixo do carrinho no mobile */
+  .toaster[data-sonner-toaster][data-y-position='bottom'] {
+    bottom: 5.5rem; /* ajusta se precisar mais espaço */
+  }
 }
+```
