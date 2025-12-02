@@ -20,25 +20,35 @@ export function Header() {
       "
     >
       <div className="relative container mx-auto px-4 py-3 md:py-4">
-        {/* SELO DA LOGO – metade dentro do header, metade invadindo o hero */}
-        <div className="pointer-events-none absolute left-3 top-full -translate-y-1/2 sm:left-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.45)] sm:h-16 sm:w-16">
+        {/* SELO DA LOGO – maior + flutuando, metade dentro do header, metade no hero */}
+        <div className="pointer-events-none absolute left-3 top-full -translate-y-1/2 sm:left-6">
+          <motion.div
+            initial={{ y: 0, opacity: 0 }}
+            animate={{ y: [-2, 2, -2], opacity: 1 }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              repeatType: "mirror",
+              ease: "easeInOut",
+            }}
+            className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_16px_40px_rgba(0,0,0,0.55)] sm:h-20 sm:w-20"
+          >
             <Image
               src="/images/sagrado-logo.png"
               alt="Sagrado"
-              width={64}
-              height={64}
-              className="h-10 w-auto sm:h-11"
+              width={96}
+              height={96}
+              className="h-11 w-auto sm:h-14"
               priority
             />
-          </div>
+          </motion.div>
         </div>
 
         <div className="flex items-center justify-between gap-4">
           {/* Marca textual (alinhada à direita do selo) */}
           <Link
             href="/"
-            className="flex flex-col pl-20 leading-tight sm:pl-24"
+            className="flex flex-col pl-20 leading-tight sm:pl-28"
           >
             <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
               SAGRADO
