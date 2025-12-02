@@ -26,9 +26,9 @@ export function Header() {
             <Image
               src="/images/sagrado-social-banner.png"
               alt="Sagrado • Comer bem é Sagrado"
-              width={260}
-              height={48}
-              className="h-10 w-auto md:h-11"
+              width={320}
+              height={80}
+              className="h-12 w-auto md:h-14"
               priority
             />
           </Link>
