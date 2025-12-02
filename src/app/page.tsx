@@ -17,7 +17,7 @@ const CartSheet = dynamic(
 export default function Home() {
   return (
     <>
-      <main className="pt-24">
+      <main className="">
         <Hero />
         <Features />
         <Kits />
