@@ -12,15 +12,16 @@ export function Header() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
-      className="fixed top-0 z-50 w-full border-b border-white/10 bg-gradient-to-b from-black/60 via-black/35 to-transparent backdrop-blur"
+      className="fixed top-0 z-50 w-full border-b border-black/5 bg-[#FFF8EB]/90 backdrop-blur"
     >
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between gap-4">
-          {/* Marca */}
+          {/* Bloco da marca */}
           <div className="flex items-center gap-3">
+            {/* Logo dentro de um “selo” */}
             <Link
               href="/"
-              className="flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-4 py-1.5 shadow-sm"
+              className="flex items-center gap-2 rounded-full border border-[#6C2DC7]/18 bg-white/95 px-4 py-1.5 shadow-sm"
             >
               <Image
                 src="/images/sagrado-logo.png"
@@ -32,38 +33,27 @@ export function Header() {
               />
             </Link>
 
-            <span className="hidden text-[10px] font-medium uppercase tracking-[0.18em] text-white/80 sm:inline">
+            {/* Slogan fino, só em tela maior */}
+            <span className="hidden text-[10px] font-medium uppercase tracking-[0.18em] text-slate-500 sm:inline">
               Lanches limpos • Sem glúten • Sem lactose
             </span>
           </div>
 
-          {/* Navegação + CTAs */}
+          {/* Navegação + CTA */}
           <div className="flex items-center gap-3 md:gap-4">
-            {/* Links desktop */}
-            <nav className="hidden items-center gap-6 text-xs font-medium text-white/80 md:flex">
-              <a href="#kits" className="hover:text-white">
+            <nav className="hidden items-center gap-6 text-xs font-medium text-slate-700 md:flex">
+              <a href="#kits" className="hover:text-[#6C2DC7]">
                 Kits heróis
               </a>
-              <a href="#como-funciona" className="hover:text-white">
+              <a href="#como-funciona" className="hover:text-[#6C2DC7]">
                 Como funciona
               </a>
             </nav>
 
-            {/* Botão "Ver kits" */}
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="hidden border-white/60 bg-transparent text-white hover:bg-white/10 hover:text-white md:inline-flex"
-            >
-              <a href="#kits">Ver kits</a>
-            </Button>
-
-            {/* Botão WhatsApp – CTA principal */}
             <Button
               asChild
               size="sm"
-              className="gap-2 bg-white px-4 text-xs font-semibold text-[#6C2DC7] shadow-lg shadow-black/30 hover:bg-[#F6F3EF] active:translate-y-[1px]"
+              className="gap-2 rounded-full bg-gradient-to-r from-[#6C2DC7] via-[#F44336] to-[#FFB100] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-[#6C2DC7]/30 hover:brightness-105 active:translate-y-[1px]"
             >
               <a
                 href="https://wa.me/5581999874547"
