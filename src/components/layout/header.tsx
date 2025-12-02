@@ -49,9 +49,9 @@ export function Header() {
 
             {/* Botão “Ver kits” – secundário */}
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
-              className="hidden rounded-full border-white/60 bg-white/10 px-5 text-xs text-white hover:bg-white/20 hover:text-white md:inline-flex"
+              className="hidden rounded-full border border-white/35 bg-black/10 px-4 text-xs font-medium text-white backdrop-blur-md hover:bg-black/25 hover:border-white/80 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200 md:inline-flex"
               onClick={() => {
                 const el = document.getElementById("kits")
                 if (el) el.scrollIntoView({ behavior: "smooth" })
@@ -63,13 +63,9 @@ export function Header() {
             {/* Botão WhatsApp – CTA principal */}
             <Button
               asChild
+              variant="ghost"
               size="sm"
-              className="
-                gap-2 rounded-full
-                bg-white px-5 text-xs font-semibold text-[#6C2DC7]
-                shadow-md shadow-black/30
-                hover:bg-[#F6F3EF] active:translate-y-[1px]
-              "
+              className="gap-2 rounded-full bg-white px-4 text-xs font-semibold text-[#F4439D] shadow-[0_10px_30px_rgba(0,0,0,0.35)] hover:bg-[#FFE6F3] hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200"
             >
               <a
                 href="https://wa.me/5581999874547"
