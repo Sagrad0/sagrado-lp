@@ -45,38 +45,37 @@ export function Hero() {
                 estranho.
               </p>
 
-              {/* CTAs */}
-<div className="flex flex-wrap items-center gap-3 pt-1">
-  {/* Ver kits – mesmo comportamento do header */}
-  <Button
-    variant="outline"
-    size="lg"
-    className="rounded-full border-white/70 bg-white/5 px-6 text-xs text-white backdrop-blur-sm hover:bg-white/15 hover:text-white sm:text-sm"
-    onClick={() => {
-      const el = document.getElementById("kits")
-      if (el) el.scrollIntoView({ behavior: "smooth" })
-    }}
-  >
-    Ver kits disponíveis
-  </Button>
+                            {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                {/* Secundário: rola até os kits */}
+                <Button
+                  variant="ghost"
+                  size="lg"
+                  className="rounded-full border border-white/40 bg-black/20 px-6 text-xs font-medium text-white backdrop-blur-md hover:bg-black/35 hover:border-white/80 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(0,0,0,0.4)] active:translate-y-0 transition-all duration-200 sm:text-sm"
+                  onClick={() => {
+                    const el = document.getElementById("kits")
+                    if (el) el.scrollIntoView({ behavior: "smooth" })
+                  }}
+                >
+                  Ver kits disponíveis
+                </Button>
 
-  {/* WhatsApp – CTA principal roxo, igual ao topo */}
-  <Button
-    asChild
-    size="lg"
-    className="rounded-full px-6 text-xs sm:text-sm"
-  >
-    <a
-      href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
-      target="_blank"
-      rel="noreferrer"
-    >
-      Pedir pelo WhatsApp
-    </a>
-  </Button>
-</div>
-
-
+                {/* Primário: WhatsApp branco destacando no fundo rosa */}
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="lg"
+                  className="rounded-full bg-white px-6 text-xs font-semibold text-[#F4439D] shadow-[0_10px_30px_rgba(0,0,0,0.35)] hover:bg-[#FFE6F3] hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200 sm:text-sm"
+                >
+                  <a
+                    href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Pedir pelo WhatsApp
+                  </a>
+                </Button>
+              </div>
               {/* Chips de benefício */}
               <div className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-black/35 px-3 py-1 text-[10px] font-medium text-white/85 sm:text-xs">
                 <span>🍕 Pizzas crocantes</span>
