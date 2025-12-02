@@ -28,7 +28,7 @@ export function Header() {
               alt="Sagrado • Comer bem é Sagrado"
               width={260}
               height={48}
-              className="h-8 w-auto md:h-9"
+              className="h-10 w-auto md:h-11"
               priority
             />
           </Link>
