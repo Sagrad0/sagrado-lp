@@ -22,14 +22,16 @@ export function Header() {
       <div className="relative container mx-auto px-4 py-3 md:py-4">
         {/* SELO DA LOGO – metade dentro do header, metade invadindo o hero */}
         <div className="pointer-events-none absolute left-3 top-full -translate-y-1/2 sm:left-4">
-          <Image
-            src="/images/sagrado-badge.png"
-            alt="Sagrado - Comer bem é sagrado"
-            width={96}
-            height={96}
-            className="h-16 w-auto sm:h-20"
-            priority
-          />
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.45)] sm:h-16 sm:w-16">
+            <Image
+              src="/images/sagrado-logo.png"
+              alt="Sagrado"
+              width={64}
+              height={64}
+              className="h-10 w-auto sm:h-11"
+              priority
+            />
+          </div>
         </div>
 
         <div className="flex items-center justify-between gap-4">
