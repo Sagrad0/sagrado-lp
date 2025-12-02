@@ -19,43 +19,18 @@ export function Header() {
         shadow-[0_10px_30px_rgba(0,0,0,0.18)]
       "
     >
-      <div className="relative container mx-auto px-4 py-3 md:py-4">
-        {/* SELO DA LOGO – maior + flutuando, metade dentro do header, metade no hero */}
-        <div className="pointer-events-none absolute left-3 top-full -translate-y-1/2 sm:left-6">
-          <motion.div
-            initial={{ y: 0, opacity: 0 }}
-            animate={{ y: [-2, 2, -2], opacity: 1 }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              repeatType: "mirror",
-              ease: "easeInOut",
-            }}
-            className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_16px_40px_rgba(0,0,0,0.55)] sm:h-20 sm:w-20"
-          >
+      <div className="container mx-auto px-4 py-3 md:py-4">
+        <div className="flex items-center justify-between gap-4">
+          {/* LOGO / WORDMARK – usando o banner */}
+          <Link href="/" className="flex items-center">
             <Image
-              src="/images/sagrado-logo.png"
-              alt="Sagrado"
-              width={96}
-              height={96}
-              className="h-11 w-auto sm:h-14"
+              src="/images/sagrado-social-banner.png"
+              alt="Sagrado • Comer bem é Sagrado"
+              width={260}
+              height={48}
+              className="h-8 w-auto md:h-9"
               priority
             />
-          </motion.div>
-        </div>
-
-        <div className="flex items-center justify-between gap-4">
-          {/* Marca textual (alinhada à direita do selo) */}
-          <Link
-            href="/"
-            className="flex flex-col pl-20 leading-tight sm:pl-28"
-          >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
-              SAGRADO
-            </span>
-            <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-white/80">
-              LANCHES LIMPOS • SEM GLÚTEN • SEM LACTOSE
-            </span>
           </Link>
 
           <div className="flex items-center gap-3 md:gap-5">
@@ -81,7 +56,7 @@ export function Header() {
               Ver kits disponíveis
             </Button>
 
-            {/* CTA secundário: Pedir pelo WhatsApp (verde, texto e ícone brancos) */}
+            {/* CTA secundário: WhatsApp verde */}
             <Button
               asChild
               size="sm"
