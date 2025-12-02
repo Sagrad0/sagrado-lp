@@ -47,33 +47,33 @@ export function Header() {
               </a>
             </nav>
 
-            {/* Botão “Ver kits” – secundário */}
+            {/* CTA primário: Ver kits disponíveis */}
             <Button
-              variant="ghost"
               size="sm"
-              className="hidden rounded-full border border-white/35 bg-black/10 px-4 text-xs font-medium text-white backdrop-blur-md hover:bg-black/25 hover:border-white/80 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200 md:inline-flex"
+              className="hidden rounded-full bg-[#E0006E] px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:bg-[#ff2b90] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200 md:inline-flex"
               onClick={() => {
                 const el = document.getElementById("kits")
                 if (el) el.scrollIntoView({ behavior: "smooth" })
               }}
             >
-              Ver kits
+              Ver kits disponíveis
             </Button>
 
-            {/* Botão WhatsApp – CTA principal */}
+            {/* CTA secundário: Pedir pelo WhatsApp */}
             <Button
               asChild
               variant="ghost"
               size="sm"
-              className="gap-2 rounded-full bg-white px-4 text-xs font-semibold text-[#F4439D] shadow-[0_10px_30px_rgba(0,0,0,0.35)] hover:bg-[#FFE6F3] hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200"
+              className="rounded-full border border-[#E0006E] bg-transparent px-4 py-2 text-xs font-medium text-[#E0006E] hover:bg-[#E0006E]/10 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)] active:translate-y-0 transition-all duration-200"
             >
               <a
-                href="https://wa.me/5581999874547"
+                href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="flex items-center gap-2"
               >
-                <WhatsappLogo className="h-4 w-4" weight="fill" />
-                WhatsApp
+                <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
+                Pedir pelo WhatsApp
               </a>
             </Button>
           </div>
