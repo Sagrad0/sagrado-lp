@@ -9,32 +9,50 @@ import { motion } from "framer-motion"
 export function Header() {
   return (
     <motion.header
-      initial={{ y: -80, opacity: 0 }}
+      initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
-      className="fixed top-0 z-50 w-full bg-[#F4439D] shadow-sm"
+      className="
+        fixed top-0 z-50 w-full
+        border-b border-white/15
+        bg-gradient-to-b from-[#F4439D]/95 via-[#F4439D]/90 to-[#F4439D]/80
+        backdrop-blur-xl
+        shadow-[0_10px_30px_rgba(0,0,0,0.18)]
+      "
     >
       <div className="container mx-auto px-4 py-3 md:py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo com leve animação no hover */}
-          <motion.div whileHover={{ scale: 1.05 }}>
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/images/sagrado-logo.png"
-                alt="Sagrado"
-                width={120}
-                height={60}
-                className="h-auto"
-                priority
-              />
-            </Link>
-          </motion.div>
+        <div className="flex items-center justify-between gap-4">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/images/sagrado-logo.png"
+              alt="Sagrado"
+              width={120}
+              height={60}
+              className="h-8 w-auto md:h-9"
+              priority
+            />
+            <span className="hidden text-[10px] font-medium uppercase tracking-[0.18em] text-white/85 sm:inline">
+              LANCHES LIMPOS • SEM GLÚTEN • SEM LACTOSE
+            </span>
+          </Link>
 
-          <div className="flex items-center gap-3">
-            {/* Ver kits – pill clara sobre o rosa */}
+          <div className="flex items-center gap-3 md:gap-5">
+            {/* Navegação desktop */}
+            <nav className="hidden items-center gap-6 text-xs font-medium text-white/85 md:flex">
+              <a href="#kits" className="hover:text-white">
+                Kits heróis
+              </a>
+              <a href="#como-funciona" className="hover:text-white">
+                Como funciona
+              </a>
+            </nav>
+
+            {/* Botão “Ver kits” – secundário */}
             <Button
               variant="outline"
-              className="hidden rounded-full border-white/40 bg-white/10 px-5 py-2 text-xs font-semibold text-white shadow-sm backdrop-blur hover:bg-white/25 hover:text-white md:inline-flex"
+              size="sm"
+              className="hidden rounded-full border-white/60 bg-white/10 px-5 text-xs text-white hover:bg-white/20 hover:text-white md:inline-flex"
               onClick={() => {
                 const el = document.getElementById("kits")
                 if (el) el.scrollIntoView({ behavior: "smooth" })
@@ -43,18 +61,23 @@ export function Header() {
               Ver kits
             </Button>
 
-            {/* WhatsApp – botão branco destacado */}
+            {/* Botão WhatsApp – CTA principal */}
             <Button
               asChild
-              variant="outline"
-              className="gap-2 rounded-full border-transparent bg-white px-5 py-2 text-xs font-semibold text-[#5E2BBF] shadow-md hover:bg-white/90"
+              size="sm"
+              className="
+                gap-2 rounded-full
+                bg-white px-5 text-xs font-semibold text-[#6C2DC7]
+                shadow-md shadow-black/30
+                hover:bg-[#F6F3EF] active:translate-y-[1px]
+              "
             >
               <a
                 href="https://wa.me/5581999874547"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <WhatsappLogo className="h-5 w-5" weight="fill" />
+                <WhatsappLogo className="h-4 w-4" weight="fill" />
                 WhatsApp
               </a>
             </Button>
