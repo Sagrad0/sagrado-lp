@@ -14,9 +14,8 @@ export function Header() {
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
       className="
         fixed top-0 z-50 w-full
-        border-b border-white/15
-        bg-gradient-to-b from-[#F4439D]/95 via-[#F4439D]/90 to-[#F4439D]/80
-        backdrop-blur-xl
+        border-b border-black/20
+        bg-[#E0006E]
         shadow-[0_10px_30px_rgba(0,0,0,0.18)]
       "
     >
