@@ -13,6 +13,7 @@ export function Header() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
       className="
+        relative
         fixed top-0 z-50 w-full
         border-b border-black/20
         bg-[#E0006E]
@@ -21,29 +22,14 @@ export function Header() {
     >
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between gap-4">
-          {/* Logo + texto */}
-          <Link href="/" className="flex items-center gap-2 md:gap-3">
-            {/* Medalhão branco com a marca dentro */}
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-[0_6px_16px_rgba(0,0,0,0.35)] md:h-10 md:w-10">
-              <Image
-                src="/images/sagrado-logo.png"
-                alt="Sagrado"
-                width={40}
-                height={40}
-                className="h-7 w-auto md:h-8"
-                priority
-              />
-            </div>
-
-            {/* Nome + tagline */}
-            <div className="hidden flex-col leading-tight sm:flex">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
-                SAGRADO
-              </span>
-              <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-white/80">
-                LANCHES LIMPOS • SEM GLÚTEN • SEM LACTOSE
-              </span>
-            </div>
+          {/* Marca textual – leve, sem aumentar o header */}
+          <Link href="/" className="flex flex-col leading-tight">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+              SAGRADO
+            </span>
+            <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-white/80">
+              LANCHES LIMPOS • SEM GLÚTEN • SEM LACTOSE
+            </span>
           </Link>
 
           <div className="flex items-center gap-3 md:gap-5">
@@ -86,6 +72,26 @@ export function Header() {
               </a>
             </Button>
           </div>
+        </div>
+      </div>
+
+      {/* SELO DA LOGO – entre header e hero */}
+      <div
+        className="
+          absolute top-full z-40
+          left-4 -translate-y-1/2
+          sm:left-1/2 sm:-translate-x-1/2
+        "
+      >
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.4)] sm:h-16 sm:w-16">
+          <Image
+            src="/images/sagrado-logo.png"
+            alt="Sagrado"
+            width={64}
+            height={64}
+            className="h-10 w-auto sm:h-11"
+            priority
+          />
         </div>
       </div>
     </motion.header>
