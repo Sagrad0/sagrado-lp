@@ -44,7 +44,7 @@ export function Header() {
               </a>
             </nav>
 
-            {/* CTA primário: Ver kits disponíveis (roxo / sacola) */}
+            {/* CTA primário: Ver kits disponíveis (foco principal) */}
             <Button
               size="sm"
               className="hidden rounded-full bg-[#3E1B97] px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:bg-[#5531B5] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200 md:inline-flex"
@@ -56,11 +56,17 @@ export function Header() {
               Ver kits disponíveis
             </Button>
 
-            {/* CTA secundário: WhatsApp verde */}
+            {/* CTA secundário: WhatsApp (apoio, menos destaque) */}
             <Button
               asChild
+              variant="ghost"
               size="sm"
-              className="rounded-full bg-[#25D366] px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:bg-[#1EB358] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200"
+              className="
+                rounded-full border border-white/35 bg-transparent
+                px-4 py-2 text-xs font-medium text-white/85
+                hover:bg-white/10 hover:text-white hover:border-white/60
+                transition-all duration-200
+              "
             >
               <a
                 href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
@@ -68,8 +74,8 @@ export function Header() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
               >
-                <WhatsappLogo className="h-4 w-4 text-white" weight="fill" />
-                Pedir pelo WhatsApp
+                <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
+                Atendimento WhatsApp
               </a>
             </Button>
           </div>
