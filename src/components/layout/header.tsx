@@ -22,80 +22,66 @@ export function Header() {
     >
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between gap-4">
-          {/* LOGO EM PILL CLARA */}
+          {/* LOGO SIMPLES, SEM PILL */}
           <Link href="/" className="flex items-center">
-            <div className="flex items-center rounded-full bg-[#F6F3EF]/95 px-3 py-1 shadow-sm">
-              <div className="relative h-8 w-28 md:h-9 md:w-32">
-                <Image
-                  src="/images/logo-sagrado.png" // aqui você troca pelo arquivo novo da logo
-                  alt="Sagrado • Comer bem é Sagrado"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
+            <div className="relative h-8 w-28 md:h-9 md:w-32">
+              <Image
+                src="/images/logo-sagrado.png" // troca pelo arquivo certo da logo
+                alt="Sagrado • Comer bem é Sagrado"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
           </Link>
 
-          <div className="flex items-center gap-3 md:gap-5">
-            {/* Navegação desktop */}
-            <nav className="hidden items-center gap-6 text-xs font-medium text-white/85 md:flex">
-              <a href="#kits" className="hover:text-white">
-                Kits heróis
-              </a>
-              <a href="#como-funciona" className="hover:text-white">
-                Como funciona
-              </a>
-            </nav>
+          {/* SÓ OS DOIS BOTÕES – CONSISTENTES COM O HERO */}
+          <div className="flex items-center gap-2">
+            {/* CTA PRINCIPAL – MESMA LÓGICA VISUAL DO HERO */}
+            <Button
+              size="sm"
+              className="
+                inline-flex items-center gap-2
+                rounded-full bg-[#3E1B97] px-5 py-2.5
+                text-[11px] font-semibold uppercase tracking-[0.18em]
+                text-white
+                shadow-lg shadow-black/25
+                hover:bg-[#4C2AD9]
+                hover:shadow-[0_18px_40px_rgba(0,0,0,0.45)]
+                active:translate-y-[1px]
+                transition-all duration-200
+              "
+              onClick={() => {
+                const el = document.getElementById("kits")
+                if (el) el.scrollIntoView({ behavior: "smooth" })
+              }}
+            >
+              VER KITS
+            </Button>
 
-            {/* CTAs lado a lado */}
-            <div className="flex items-center gap-2">
-              {/* CTA PRINCIPAL: VER KITS / CARRINHO (APARECE NO MOBILE) */}
-              <Button
-                size="sm"
-                className="
-                  inline-flex items-center gap-2
-                  rounded-full bg-white px-4 py-2
-                  text-[11px] font-semibold uppercase tracking-wide
-                  text-[#E0006E]
-                  shadow-md shadow-black/20
-                  hover:bg-[#F6F3EF]
-                  hover:shadow-lg
-                  active:translate-y-[1px]
-                  transition-all duration-200
-                "
-                onClick={() => {
-                  const el = document.getElementById("kits")
-                  if (el) el.scrollIntoView({ behavior: "smooth" })
-                }}
+            {/* CTA SECUNDÁRIO – WHATS MAIS LEVE */}
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="
+                rounded-full border border-white/40 bg-white/5 px-3 py-2
+                text-[11px] font-medium text-white/80
+                hover:bg-white/10 hover:border-white/80 hover:text-white
+                active:translate-y-[1px]
+                transition-all duration-200
+              "
+            >
+              <a
+                href="https://wa.me/55SEUNUMEROAQUI?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5"
               >
-                Ver kits
-              </Button>
-
-              {/* CTA SECUNDÁRIO: WHATSAPP (APOIO) */}
-              <Button
-                asChild
-                variant="ghost"
-                size="sm"
-                className="
-                  rounded-full border border-white/35 bg-white/5 px-3 py-2
-                  text-[11px] font-medium text-white/85
-                  hover:bg:white/10 hover:border-white/70 hover:text-white
-                  active:translate-y-[1px]
-                  transition-all duration-200
-                "
-              >
-                <a
-                  href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5"
-                >
-                  <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
-                  <span>Atendimento</span>
-                </a>
-              </Button>
-            </div>
+                <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
+                <span>Atendimento</span>
+              </a>
+            </Button>
           </div>
         </div>
       </div>
