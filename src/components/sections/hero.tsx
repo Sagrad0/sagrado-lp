@@ -48,10 +48,10 @@ export function Hero() {
 
               {/* CTAs */}
               <div className="flex flex-wrap items-center gap-3 pt-1">
-                {/* Primário: Ver kits disponíveis (magenta cheio) */}
+                {/* CTA principal: ver kits (compra pelo site) */}
                 <Button
                   size="lg"
-                  className="rounded-full bg-[#E0006E] px-7 py-3 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.4)] hover:bg-[#ff2b90] hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.5)] active:translate-y-0 transition-all duration-200 sm:text-sm"
+                  className="rounded-full bg-[#3E1B97] px-7 text-xs font-semibold text-white shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:bg-[#5531B5] hover:-translate-y-0.5 hover:shadow-[0_18px_50px_rgba(0,0,0,0.55)] active:translate-y-0 transition-all duration-200 sm:text-sm"
                   onClick={() => {
                     const el = document.getElementById("kits")
                     if (el) el.scrollIntoView({ behavior: "smooth" })
@@ -60,21 +60,24 @@ export function Hero() {
                   Ver kits disponíveis
                 </Button>
 
-                {/* Secundário: WhatsApp com borda magenta + ícone verde */}
+                {/* CTA secundário: atendimento no WhatsApp */}
                 <Button
                   asChild
                   variant="ghost"
                   size="lg"
-                  className="rounded-full border border-[#E0006E] bg-black/30 px-7 py-3 text-xs font-medium text-white backdrop-blur-md hover:bg-black/50 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200 sm:text-sm"
+                  className="rounded-full border border-white/35 bg-black/25 px-6 text-xs font-medium text-white/90 backdrop-blur-md hover:bg-black/40 hover:border-white/70 hover:text-white hover:-translate-y-0.5 hover:shadow-[0_12px_36px_rgba(0,0,0,0.5)] active:translate-y-0 transition-all duration-200 sm:text-sm"
                 >
                   <a
-                    href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
+                    href="https://wa.me/5581999874547?text=Quero%20tirar%20d%C3%BAvidas%20sobre%20os%20kits%20Sagrado"
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-2"
                   >
-                    <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
-                    Pedir pelo WhatsApp
+                    <WhatsappLogo
+                      className="h-4 w-4 text-[#25D366]"
+                      weight="fill"
+                    />
+                    Atendimento WhatsApp
                   </a>
                 </Button>
               </div>
