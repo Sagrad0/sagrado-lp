@@ -14,23 +14,27 @@ export function Header() {
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
       className="
         fixed top-0 z-50 w-full
-        border-b border-black/20
-        bg-[#E0006E]
-        shadow-[0_10px_30px_rgba(0,0,0,0.18)]
+        border-b border-black/15
+        bg-gradient-to-r from-[#F4439D] via-[#E0006E] to-[#C30063]
+        backdrop-blur-xl
+        shadow-[0_10px_30px_rgba(0,0,0,0.25)]
       "
     >
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between gap-4">
-          {/* LOGO / WORDMARK – usando o banner */}
+          {/* LOGO EM PILL CLARA */}
           <Link href="/" className="flex items-center">
-            <Image
-              src="/images/sagrado-social-banner.png"
-              alt="Sagrado • Comer bem é Sagrado"
-              width={320}
-              height={80}
-              className="h-12 w-auto md:h-14"
-              priority
-            />
+            <div className="flex items-center rounded-full bg-[#F6F3EF]/95 px-3 py-1 shadow-sm">
+              <div className="relative h-8 w-28 md:h-9 md:w-32">
+                <Image
+                  src="/images/logo-sagrado.png" // aqui você troca pelo arquivo novo da logo
+                  alt="Sagrado • Comer bem é Sagrado"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </div>
           </Link>
 
           <div className="flex items-center gap-3 md:gap-5">
@@ -44,40 +48,54 @@ export function Header() {
               </a>
             </nav>
 
-            {/* CTA primário: Ver kits disponíveis (foco principal) */}
-            <Button
-              size="sm"
-              className="hidden rounded-full bg-[#3E1B97] px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:bg-[#5531B5] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)] active:translate-y-0 transition-all duration-200 md:inline-flex"
-              onClick={() => {
-                const el = document.getElementById("kits")
-                if (el) el.scrollIntoView({ behavior: "smooth" })
-              }}
-            >
-              Ver kits disponíveis
-            </Button>
-
-            {/* CTA secundário: WhatsApp (apoio, menos destaque) */}
-            <Button
-              asChild
-              variant="ghost"
-              size="sm"
-              className="
-                rounded-full border border-white/35 bg-transparent
-                px-4 py-2 text-xs font-medium text-white/85
-                hover:bg-white/10 hover:text-white hover:border-white/60
-                transition-all duration-200
-              "
-            >
-              <a
-                href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
+            {/* CTAs lado a lado */}
+            <div className="flex items-center gap-2">
+              {/* CTA PRINCIPAL: VER KITS / CARRINHO (APARECE NO MOBILE) */}
+              <Button
+                size="sm"
+                className="
+                  inline-flex items-center gap-2
+                  rounded-full bg-white px-4 py-2
+                  text-[11px] font-semibold uppercase tracking-wide
+                  text-[#E0006E]
+                  shadow-md shadow-black/20
+                  hover:bg-[#F6F3EF]
+                  hover:shadow-lg
+                  active:translate-y-[1px]
+                  transition-all duration-200
+                "
+                onClick={() => {
+                  const el = document.getElementById("kits")
+                  if (el) el.scrollIntoView({ behavior: "smooth" })
+                }}
               >
-                <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
-                Atendimento WhatsApp
-              </a>
-            </Button>
+                Ver kits
+              </Button>
+
+              {/* CTA SECUNDÁRIO: WHATSAPP (APOIO) */}
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="
+                  rounded-full border border-white/35 bg-white/5 px-3 py-2
+                  text-[11px] font-medium text-white/85
+                  hover:bg:white/10 hover:border-white/70 hover:text-white
+                  active:translate-y-[1px]
+                  transition-all duration-200
+                "
+              >
+                <a
+                  href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5"
+                >
+                  <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
+                  <span>Atendimento</span>
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
