@@ -24,7 +24,7 @@ export function Header() {
         <div className="flex items-center justify-between gap-4">
           {/* LOGO SIMPLES, SEM PILL */}
           <Link href="/" className="flex items-center">
-            <div className="relative h-8 w-28 md:h-9 md:w-32">
+            <div className="relative h-16 w-[224px] md:h-[72px] md:w-[256px]">
               <Image
                 src="/images/logo-sagrado.png" // troca pelo arquivo certo da logo
                 alt="Sagrado • Comer bem é Sagrado"
