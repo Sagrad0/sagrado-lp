@@ -51,7 +51,7 @@ export function KitCard({ kit }: KitCardProps) {
     >
       {/* Efeito de brilho no hover */}
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <div className="absolute -inset-x-1/2 -inset-y-1/2 h-[200%] w-[200%] rotate-45 bg-gradient-to-r from-transparent via-purple-500/5 to-transparent" />
+        <div className="absolute -inset-x-1/2 -inset-y-1/2 h-[200%] w-[200%] bg-gradient-to-r from-transparent via-purple-500/5 to-transparent" />
       </div>
 
       {/* Imagem com altura fixa pra alinhar os cards */}
@@ -95,7 +95,7 @@ export function KitCard({ kit }: KitCardProps) {
 
       {/* Conteúdo */}
       <div className="relative z-10 flex flex-1 flex-col p-6">
-        <h3 className="mb-2 text-xl font-serif font-bold text-gray-900 transition-colors group-hover:text-purple-700">
+        <h3 className="mb-2 font-serif text-xl font-bold text-gray-900 transition-colors group-hover:text-purple-700">
           {kit.name}
         </h3>
         <p className="mb-3 text-sm text-gray-600">{kit.description}</p>
@@ -142,8 +142,9 @@ export function KitCard({ kit }: KitCardProps) {
             {/* Botão Add */}
             <Button
               type="button"
+              size="lg"
+              className="flex-1"
               onClick={handleAdd}
-              className="flex-1 rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:from-purple-700 hover:to-purple-800 hover:shadow-lg"
             >
               <span className="flex items-center justify-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
