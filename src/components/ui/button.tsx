@@ -10,27 +10,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // CTA principal
         default:
           "bg-gradient-to-r from-[#6C2DC7] to-[#4B1D96] text-white shadow-md hover:brightness-110 hover:shadow-lg active:translate-y-[1px]",
-
-        // Perigo / excluir
         destructive:
           "bg-red-600 text-white shadow-sm hover:bg-red-700 active:translate-y-[1px]",
-
-        // Contorno roxo
         outline:
           "border border-[#6C2DC7] bg-transparent text-[#6C2DC7] hover:bg-[#F6F3EF] hover:border-[#4B1D96] hover:text-[#4B1D96] active:translate-y-[1px]",
-
-        // Fundo claro
         secondary:
           "bg-[#F6F3EF] text-[#3A265F] shadow-sm hover:bg-[#e8e0d7] active:translate-y-[1px]",
-
-        // Fantasma
         ghost:
           "bg-transparent text-[#3A265F] hover:bg-[#F6F3EF]/80 active:translate-y-[1px]",
-
-        // Link
         link:
           "bg-transparent text-[#6C2DC7] underline-offset-4 hover:underline px-0 h-auto",
       },
