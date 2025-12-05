@@ -1,30 +1,30 @@
 "use client"
 
-import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
-import { useCart } from '@/lib/store/cart'
-import { formatPrice } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { motion, AnimatePresence } from "framer-motion"
+import { useState } from "react"
+import { useCart } from "@/lib/store/cart"
+import { formatPrice } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { toast } from 'sonner'
-import { Minus, Plus, Trash, ShoppingCart } from '@phosphor-icons/react'
-import { CheckoutForm } from './checkout-form'
+} from "@/components/ui/sheet"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { toast } from "sonner"
+import { Minus, Plus, Trash, ShoppingCart } from "@phosphor-icons/react"
+import { CheckoutForm } from "./checkout-form"
 
 const MotionButton = motion(Button)
 
 export function CartSheet() {
   const { items, removeItem, updateQty, getTotalItems, getSubtotal } = useCart()
   const [isOpen, setIsOpen] = useState(false)
+
   const totalItems = getTotalItems()
   const subtotal = getSubtotal()
-
   const hasItems = totalItems > 0
 
   const handleDecrement = (id: string, currentQty: number) => {
@@ -39,7 +39,7 @@ export function CartSheet() {
 
   const handleOpenChange = (open: boolean) => {
     if (!hasItems && open) {
-      toast.info('Adicione pelo menos um kit antes de abrir o carrinho.')
+      toast.info("Adicione pelo menos um kit antes de abrir o carrinho.")
       return
     }
     setIsOpen(open)
@@ -50,26 +50,38 @@ export function CartSheet() {
       <SheetTrigger asChild>
         <MotionButton
           type="button"
-          variant="secondary"
+          variant="default"
           size="lg"
-          className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 shadow-lg md:bottom-6 md:right-6"
+          className="
+            fixed bottom-4 right-4 z-40
+            flex items-center gap-2
+            rounded-full pl-5 pr-4
+            shadow-[0_18px_40px_rgba(0,0,0,0.45)]
+          "
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{
-            type: 'spring',
+            type: "spring",
             stiffness: 260,
             damping: 20,
             delay: 0.4,
           }}
         >
-          <ShoppingCart className="h-6 w-6" weight="bold" />
+          <span className="hidden text-sm font-semibold text-white sm:inline">
+            Carrinho
+          </span>
+
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#3E1B97] shadow-md">
+            <ShoppingCart className="h-4 w-4" weight="bold" />
+          </div>
+
           <AnimatePresence>
             {hasItems && (
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-[#6C2DC7] px-1.5 text-xs font-semibold text-white"
+                className="flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-white/90 px-1 text-[11px] font-bold text-[#E0006E]"
               >
                 {totalItems}
               </motion.span>
@@ -78,7 +90,10 @@ export function CartSheet() {
         </MotionButton>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-lg">
+      <SheetContent
+        side="right"
+        className="w-full overflow-y-auto sm:max-w-lg"
+      >
         <SheetHeader>
           <SheetTitle>Seu carrinho</SheetTitle>
         </SheetHeader>
@@ -93,7 +108,7 @@ export function CartSheet() {
             <div>
               <ScrollArea className="max-h-64 pr-2">
                 <div className="space-y-4">
-                  {Object.values(items).map(item => (
+                  {Object.values(items).map((item) => (
                     <div
                       key={item.id}
                       className="flex items-center justify-between rounded-xl border border-gray-100 bg-white p-3 shadow-sm"
@@ -106,7 +121,6 @@ export function CartSheet() {
                           {formatPrice(item.price)} / kit
                         </p>
                       </div>
-
                       <div className="flex items-center gap-2">
                         <Button
                           type="button"
@@ -117,11 +131,9 @@ export function CartSheet() {
                         >
                           <Minus className="h-4 w-4" />
                         </Button>
-
                         <span className="min-w-[1.5rem] text-center text-sm font-semibold">
                           {item.qty}
                         </span>
-
                         <Button
                           type="button"
                           variant="ghost"
@@ -155,8 +167,8 @@ export function CartSheet() {
                   </span>
                 </div>
                 <p className="mt-2 text-xs text-gray-500">
-                  O valor final pode ajustar conforme frete ou condição combinada
-                  com o atendimento.
+                  O valor final pode ajustar conforme frete ou condição
+                  combinada com o atendimento.
                 </p>
               </div>
             </div>
