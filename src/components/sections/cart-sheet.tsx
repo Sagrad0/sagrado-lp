@@ -5,11 +5,19 @@ import { useState } from 'react'
 import { useCart } from '@/lib/store/cart'
 import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { toast } from 'sonner'
 import { Minus, Plus, Trash, ShoppingCart } from '@phosphor-icons/react'
 import { CheckoutForm } from './checkout-form'
+
+const MotionButton = motion(Button)
 
 export function CartSheet() {
   const { items, removeItem, updateQty, getTotalItems, getSubtotal } = useCart()
@@ -40,12 +48,19 @@ export function CartSheet() {
   return (
     <Sheet open={isOpen} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild>
-        <motion.button
+        <MotionButton
           type="button"
-          className="fixed bottom-4 right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+          variant="secondary"
+          size="lg"
+          className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 shadow-lg md:bottom-6 md:right-6"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.4 }}
+          transition={{
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+            delay: 0.4,
+          }}
         >
           <ShoppingCart className="h-6 w-6" weight="bold" />
           <AnimatePresence>
@@ -54,23 +69,24 @@ export function CartSheet() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r from-green-500 to-green-600 text-xs font-bold text-white"
+                className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-[#6C2DC7] px-1.5 text-xs font-semibold text-white"
               >
                 {totalItems}
               </motion.span>
             )}
           </AnimatePresence>
-        </motion.button>
+        </MotionButton>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto">
+      <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-lg">
         <SheetHeader>
           <SheetTitle>Seu carrinho</SheetTitle>
         </SheetHeader>
 
         {!hasItems ? (
           <div className="mt-8 text-center text-sm text-gray-500">
-            Seu carrinho está vazio. Escolha um kit e clique em “Adicionar ao carrinho”.
+            Seu carrinho está vazio. Escolha um kit e clique em “Adicionar ao
+            carrinho”.
           </div>
         ) : (
           <div className="mt-6 space-y-6">
@@ -91,34 +107,41 @@ export function CartSheet() {
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button
+                        <Button
                           type="button"
-                          onClick={() => handleDecrement(item.id, item.qty)}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100"
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-full"
+                          onClick={() =>
+                            handleDecrement(item.id, item.quantity)
+                          }
                         >
                           <Minus className="h-4 w-4" />
-                        </button>
-                        <span className="w-6 text-center text-sm font-medium">{item.qty}</span>
-                        <button
+                        </Button>
+                        <span className="min-w-[1.5rem] text-center text-sm font-semibold">
+                          {item.quantity}
+                        </span>
+                        <Button
                           type="button"
-                          onClick={() => handleIncrement(item.id, item.qty)}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100"
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-full"
+                          onClick={() =>
+                            handleIncrement(item.id, item.quantity)
+                          }
                         >
                           <Plus className="h-4 w-4" />
-                        </button>
-                      </div>
-                      <div className="ml-4 flex flex-col items-end">
-                        <span className="text-sm font-semibold text-gray-900">
-                          {formatPrice(item.price * item.qty)}
-                        </span>
-                        <button
+                        </Button>
+
+                        <Button
                           type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-full text-red-500 hover:bg-red-50 hover:text-red-600"
                           onClick={() => removeItem(item.id)}
-                          className="mt-1 inline-flex items-center text-xs text-red-500 hover:text-red-600"
                         >
-                          <Trash className="mr-1 h-3 w-3" />
-                          Remover
-                        </button>
+                          <Trash className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                   ))}
@@ -133,7 +156,8 @@ export function CartSheet() {
                   </span>
                 </div>
                 <p className="mt-2 text-xs text-gray-500">
-                  O valor final pode ajustar conforme frete ou condição combinada com o atendimento.
+                  O valor final pode ajustar conforme frete ou condição combinada
+                  com o atendimento.
                 </p>
               </div>
             </div>
