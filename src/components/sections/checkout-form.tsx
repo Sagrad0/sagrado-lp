@@ -300,10 +300,14 @@ export function CheckoutForm() {
         >
           <Button
             type="submit"
+            variant="default"
+            size="lg"
             className="w-full h-12 text-base font-semibold"
             disabled={isLoading}
           >
-            {isLoading && <CircleNotch className="mr-2 h-5 w-5 animate-spin" />}
+            {isLoading && (
+              <CircleNotch className="mr-2 h-5 w-5 animate-spin" />
+            )}
             <span className="flex items-center gap-2">
               Finalizar pedido no WhatsApp
             </span>
