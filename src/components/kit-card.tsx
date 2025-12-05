@@ -143,7 +143,9 @@ export function KitCard({ kit }: KitCardProps) {
             <Button
               type="button"
               size="lg"
-              className="flex-1"
+              // min-w-0 permite o botão encolher dentro do flex
+              // text-xs em telas menores ajuda a não estourar o card
+              className="flex-1 min-w-0 px-4 text-xs sm:text-sm"
               onClick={handleAdd}
             >
               <span className="flex items-center justify-center gap-2">
