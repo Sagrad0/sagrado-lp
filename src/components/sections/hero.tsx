@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
       <div className="relative min-h-[620px] w-full md:min-h-[700px] lg:min-h-[760px]">
-        {/* IMAGEM FULL BACKGROUND – mais “afastada” */}
+        {/* IMAGEM DE FUNDO */}
         <Image
           src="/images/hero-sagrado-full.jpg"
           alt="Kits Sagrado na mesa: pizzas, dadinhos e coxinhas"
@@ -19,8 +19,8 @@ export function Hero() {
           className="object-cover object-[50%_40%] md:object-[50%_45%]"
         />
 
-        {/* OVERLAY: escurece o lado do texto, deixa a direita respirar */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/5" />
+        {/* OVERLAY */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/78 via-black/50 to-black/10" />
 
         {/* CONTEÚDO */}
         <div className="relative z-10">
@@ -47,18 +47,36 @@ export function Hero() {
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-3 pt-1">
-                {/* CTA principal: ver kits (compra pelo site) */}
-                <Button asChild size="lg" className="w-full sm:w-auto">
-                  <a href="#kits">Ver kits disponíveis</a>
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                {/* CTA principal: Ver kits */}
+                <Button
+                  size="lg"
+                  className="
+                    rounded-full bg-gradient-to-r from-[#F4439D] via-[#E0006E] to-[#6C2DC7]
+                    px-7 text-sm
+                    shadow-[0_18px_40px_rgba(0,0,0,0.6)]
+                    hover:brightness-110 hover:shadow-[0_22px_52px_rgba(0,0,0,0.75)]
+                    active:translate-y-[1px]
+                  "
+                  onClick={() => {
+                    const el = document.getElementById("kits")
+                    if (el) el.scrollIntoView({ behavior: "smooth" })
+                  }}
+                >
+                  Ver kits disponíveis
                 </Button>
 
-                {/* CTA secundário: atendimento no WhatsApp */}
+                {/* CTA secundário: WhatsApp – pill branca/verde */}
                 <Button
                   asChild
-                  variant="ghost"
                   size="lg"
-                  className="w-full border border-white/35 bg-white/5 text-xs font-medium text-white/85 hover:bg-white/10 hover:text-white sm:w-auto sm:text-sm"
+                  variant="secondary"
+                  className="
+                    rounded-full bg-white/92 px-5 text-xs font-medium text-[#128C7E] sm:text-sm
+                    shadow-[0_14px_36px_rgba(0,0,0,0.55)]
+                    hover:bg-white hover:-translate-y-[1px]
+                    active:translate-y-[1px]
+                  "
                 >
                   <a
                     href="https://wa.me/5581999874547?text=Quero%20tirar%20d%C3%BAvidas%20sobre%20os%20kits%20Sagrado"
@@ -76,7 +94,7 @@ export function Hero() {
               </div>
 
               {/* Chips de benefício */}
-              <div className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-[10px] font-medium text-white/85 sm:text-xs">
+              <div className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-black/35 px-3 py-1 text-[10px] font-medium text-white/85 sm:text-xs">
                 <span>🍕 Pizzas crocantes</span>
                 <span className="hidden sm:inline">•</span>
                 <span>🟣 Coxinhas e dadinhos recheados</span>
