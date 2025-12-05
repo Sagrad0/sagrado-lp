@@ -49,15 +49,8 @@ export function Hero() {
               {/* CTAs */}
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 {/* CTA principal: ver kits (compra pelo site) */}
-                <Button
-                  size="lg"
-                  className="rounded-full bg-[#3E1B97] px-7 text-xs font-semibold text-white shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:bg-[#5531B5] hover:-translate-y-0.5 hover:shadow-[0_18px_50px_rgba(0,0,0,0.55)] active:translate-y-0 transition-all duration-200 sm:text-sm"
-                  onClick={() => {
-                    const el = document.getElementById("kits")
-                    if (el) el.scrollIntoView({ behavior: "smooth" })
-                  }}
-                >
-                  Ver kits disponíveis
+                <Button asChild size="lg" className="w-full sm:w-auto">
+                  <a href="#kits">Ver kits disponíveis</a>
                 </Button>
 
                 {/* CTA secundário: atendimento no WhatsApp */}
@@ -65,7 +58,7 @@ export function Hero() {
                   asChild
                   variant="ghost"
                   size="lg"
-                  className="rounded-full border border-white/35 bg-black/25 px-6 text-xs font-medium text-white/90 backdrop-blur-md hover:bg-black/40 hover:border-white/70 hover:text-white hover:-translate-y-0.5 hover:shadow-[0_12px_36px_rgba(0,0,0,0.5)] active:translate-y-0 transition-all duration-200 sm:text-sm"
+                  className="w-full border border-white/35 bg-white/5 text-xs font-medium text-white/85 hover:bg-white/10 hover:text-white sm:w-auto sm:text-sm"
                 >
                   <a
                     href="https://wa.me/5581999874547?text=Quero%20tirar%20d%C3%BAvidas%20sobre%20os%20kits%20Sagrado"
@@ -83,7 +76,7 @@ export function Hero() {
               </div>
 
               {/* Chips de benefício */}
-              <div className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-black/35 px-3 py-1 text-[10px] font-medium text-white/85 sm:text-xs">
+              <div className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-[10px] font-medium text-white/85 sm:text-xs">
                 <span>🍕 Pizzas crocantes</span>
                 <span className="hidden sm:inline">•</span>
                 <span>🟣 Coxinhas e dadinhos recheados</span>
