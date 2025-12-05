@@ -7,6 +7,11 @@ import { WhatsappLogo } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
 
 export function Header() {
+  function scrollToKits() {
+    const el = document.getElementById("kits")
+    if (el) el.scrollIntoView({ behavior: "smooth" })
+  }
+
   return (
     <motion.header
       initial={{ y: -60, opacity: 0 }}
@@ -37,50 +42,46 @@ export function Header() {
 
           {/* CTAs HEADER */}
           <div className="flex items-center gap-2 md:gap-3">
-            {/* VER KITS – pill branca, bem destacada */}
+            {/* VER KITS — pill branca, clean, sem gritaria */}
             <Button
+              variant="outline"
               size="sm"
               className="
-                inline-flex items-center gap-2
-                rounded-full bg-white px-5 py-2.5
-                text-[11px] font-semibold uppercase tracking-[0.18em]
-                text-[#E0006E]
-                shadow-[0_12px_28px_rgba(0,0,0,0.35)]
-                hover:bg-[#FFF0F8]
+                hidden md:inline-flex
+                border-white/80 bg-white/8 text-[11px] font-semibold text-white
+                rounded-full px-5
+                shadow-[0_10px_26px_rgba(0,0,0,0.35)]
+                hover:bg-white/18 hover:text-white
                 hover:-translate-y-[1px]
                 active:translate-y-[1px]
-                transition-all duration-200
               "
-              onClick={() => {
-                const el = document.getElementById("kits")
-                if (el) el.scrollIntoView({ behavior: "smooth" })
-              }}
+              onClick={scrollToKits}
             >
               VER KITS
             </Button>
 
-            {/* ATENDIMENTO – pill branca com foco no Whats */}
+            {/* ATENDIMENTO — pill leve com foco no ícone */}
             <Button
               asChild
+              variant="ghost"
               size="sm"
               className="
-                rounded-full bg-white/95 px-4 py-2
-                text-[11px] font-medium text-[#128C7E]
-                shadow-[0_10px_24px_rgba(0,0,0,0.3)]
-                hover:bg-white
-                hover:-translate-y-[1px]
+                inline-flex items-center gap-1.5
+                rounded-full border border-white/60 bg-white/10
+                text-[11px] font-medium text-white
+                hover:bg-white/18 hover:-translate-y-[1px]
                 active:translate-y-[1px]
-                transition-all duration-200
               "
             >
               <a
-                href="https://wa.me/55SEUNUMEROAQUI?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
+                href="https://wa.me/5581999874547?text=Quero%20saber%20mais%20sobre%20os%20kits%20Sagrado"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5"
               >
                 <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
-                <span>Atendimento</span>
+                <span className="hidden sm:inline">Atendimento</span>
+                <span className="sm:hidden">Whats</span>
               </a>
             </Button>
           </div>
