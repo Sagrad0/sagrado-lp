@@ -106,29 +106,28 @@ export function CartSheet() {
                           {formatPrice(item.price)} / kit
                         </p>
                       </div>
+
                       <div className="flex items-center gap-2">
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 rounded-full"
-                          onClick={() =>
-                            handleDecrement(item.id, item.quantity)
-                          }
+                          onClick={() => handleDecrement(item.id, item.qty)}
                         >
                           <Minus className="h-4 w-4" />
                         </Button>
+
                         <span className="min-w-[1.5rem] text-center text-sm font-semibold">
-                          {item.quantity}
+                          {item.qty}
                         </span>
+
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 rounded-full"
-                          onClick={() =>
-                            handleIncrement(item.id, item.quantity)
-                          }
+                          onClick={() => handleIncrement(item.id, item.qty)}
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
