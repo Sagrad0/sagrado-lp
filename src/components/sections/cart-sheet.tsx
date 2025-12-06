@@ -24,6 +24,8 @@ export function CartSheet() {
   const [isOpen, setIsOpen] = useState(false)
 
   const totalItems = getTotalItems()
+  // Quando o número de itens é muito grande, mostramos 99+
+  const countDisplay = totalItems > 99 ? "99+" : totalItems
   const subtotal = getSubtotal()
   const hasItems = totalItems > 0
 
@@ -53,7 +55,7 @@ export function CartSheet() {
           variant="default"
           size="lg"
           className="
-            fixed bottom-4 right-4 z-40
+            fixed bottom-6 md:bottom-4 right-4 z-40
             flex items-center gap-2
             rounded-full pl-5 pr-4
             shadow-[0_18px_40px_rgba(0,0,0,0.45)]
@@ -71,7 +73,7 @@ export function CartSheet() {
             Carrinho
           </span>
 
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#3E1B97] shadow-md">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#3E1B97] shadow-inner">
             <ShoppingCart className="h-4 w-4" weight="bold" />
           </div>
 
@@ -81,9 +83,9 @@ export function CartSheet() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                className="flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-white/90 px-1 text-[11px] font-bold text-[#E0006E]"
+                className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-white/90 px-1 text-[11px] font-bold text-[#F4439D]"
               >
-                {totalItems}
+                {countDisplay}
               </motion.span>
             )}
           </AnimatePresence>
