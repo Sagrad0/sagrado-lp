@@ -6,16 +6,17 @@ import { WhatsappLogo } from "@phosphor-icons/react"
 export function Footer() {
   return (
     <footer className="border-t bg-white">
-      <div className="container mx-auto px-4 pr-24 py-8">
+      <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-700">
             © 2025 Sagrado. Comer bem é sagrado.
           </p>
           <Button
             asChild
             size="sm"
             className="
-              rounded-full bg-gradient-to-r from-[#F4439D] via-[#E0006E] to-[#6C2DC7]
+              hidden md:flex
+              rounded-full bg-gradient-to-r from-[#F4439D] to-[#6C2DC7]
               text-white shadow-[0_14px_32px_rgba(0,0,0,0.4)]
               hover:brightness-110 hover:shadow-[0_18px_40px_rgba(0,0,0,0.5)]
             "
