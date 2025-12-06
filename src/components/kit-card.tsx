@@ -49,13 +49,11 @@ export function KitCard({ kit }: KitCardProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Efeito de brilho no hover */}
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <div className="absolute -inset-x-1/2 -inset-y-1/2 h-[200%] w-[200%] bg-gradient-to-r from-transparent via-purple-500/5 to-transparent" />
       </div>
 
-      {/* Imagem com altura fixa pra alinhar os cards */}
-      <div className="relative h-56 w-full overflow-hidden">
+      <div className="relative h-48 sm:h-56 w-full overflow-hidden">
         <Image
           src={kit.img}
           alt={kit.name}
@@ -64,7 +62,6 @@ export function KitCard({ kit }: KitCardProps) {
           sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
         />
 
-        {/* Badge animado */}
         <AnimatePresence>
           {isHovered && (
             <motion.div
@@ -78,7 +75,6 @@ export function KitCard({ kit }: KitCardProps) {
           )}
         </AnimatePresence>
 
-        {/* Badge de adicionado */}
         <AnimatePresence>
           {isAdded && (
             <motion.div
@@ -93,7 +89,6 @@ export function KitCard({ kit }: KitCardProps) {
         </AnimatePresence>
       </div>
 
-      {/* Conteúdo */}
       <div className="relative z-10 flex flex-1 flex-col p-6">
         <h3 className="mb-2 font-serif text-xl font-bold text-gray-900 transition-colors group-hover:text-purple-700">
           {kit.name}
@@ -101,24 +96,20 @@ export function KitCard({ kit }: KitCardProps) {
         <p className="mb-3 text-sm text-gray-600">{kit.description}</p>
         <p className="mb-4 text-xs text-gray-500">{kit.portions}</p>
 
-        {/* Rodapé: duas linhas */}
         <div className="mt-auto pt-3">
-          {/* Linha 1: preço */}
           <div className="mb-3">
-            <span className="text-2xl font-bold text-purple-600">
+            <span className="text-2xl font-bold text-[#F4439D]">
               {formatPrice(kit.price)}
             </span>
           </div>
 
-          {/* Linha 2: quantidade + botão Add */}
           <div className="flex items-center gap-3">
-            {/* Quantidade */}
             <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 px-2 py-1">
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-10 w-10 rounded-full"
+                className="h-10 w-10 rounded-full border border-gray-300 bg-purple-50 hover:bg-purple-100"
                 onClick={() => handleQtyChange(-1)}
               >
                 <Minus className="h-5 w-5" />
@@ -132,25 +123,22 @@ export function KitCard({ kit }: KitCardProps) {
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-10 w-10 rounded-full"
+                className="h-10 w-10 rounded-full border border-gray-300 bg-purple-50 hover:bg-purple-100"
                 onClick={() => handleQtyChange(1)}
               >
                 <Plus className="h-5 w-5" />
               </Button>
             </div>
 
-            {/* Botão Add */}
             <Button
               type="button"
               size="lg"
-              // min-w-0 permite o botão encolher dentro do flex
-              // text-xs em telas menores ajuda a não estourar o card
-              className="flex-1 min-w-0 px-4 text-xs sm:text-sm"
+              className="flex-1 min-w-0 max-w-[140px] px-4 text-sm"
               onClick={handleAdd}
             >
-              <span className="flex items-center justify-center gap-2">
+              <span className="flex items-center justify-center gap-2 truncate">
                 <ShoppingCart className="h-4 w-4" />
-                {qty > 0 ? `Add (${qty})` : 'Add'}
+                {qty > 0 ? `Add (${qty})` : "Add"}
               </span>
             </Button>
           </div>
