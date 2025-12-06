@@ -20,16 +20,15 @@ export function Header() {
       className="
         fixed top-0 z-50 w-full
         border-b border-black/15
-        bg-gradient-to-r from-[#F4439D] via-[#E0006E] to-[#C30063]
+        bg-gradient-to-r from-[#F4439D] to-[#6C2DC7]
         backdrop-blur-xl
         shadow-[0_10px_30px_rgba(0,0,0,0.25)]
       "
     >
-      <div className="container mx-auto px-4 py-3 md:py-4">
+      <div className="container mx-auto px-4 py-4 md:py-5">
         <div className="flex items-center justify-between gap-4">
-          {/* LOGO */}
           <Link href="/" className="flex items-center">
-            <div className="relative h-16 w-[224px] md:h-[72px] md:w-[256px]">
+            <div className="relative h-14 w-[224px] md:h-[72px] md:w-[256px]">
               <Image
                 src="/images/logo-sagrado.png"
                 alt="Sagrado • Comer bem é Sagrado"
@@ -40,27 +39,25 @@ export function Header() {
             </div>
           </Link>
 
-          {/* CTAs HEADER */}
           <div className="flex items-center gap-2 md:gap-3">
-            {/* VER KITS — pill branca, clean, sem gritaria */}
             <Button
               variant="outline"
               size="sm"
               className="
-                hidden md:inline-flex
-                border-white/80 bg-white/8 text-[11px] font-semibold text-white
+                inline-flex
+                border-white/90 bg-white/18 text-[11px] font-semibold text-white
                 rounded-full px-5
                 shadow-[0_10px_26px_rgba(0,0,0,0.35)]
-                hover:bg-white/18 hover:text-white
+                hover:bg-white/24 hover:text-white
                 hover:-translate-y-[1px]
                 active:translate-y-[1px]
               "
               onClick={scrollToKits}
             >
-              VER KITS
+              <span className="hidden md:inline">VER KITS</span>
+              <span className="md:hidden">Kits</span>
             </Button>
 
-            {/* ATENDIMENTO — pill leve com foco no ícone */}
             <Button
               asChild
               variant="ghost"
@@ -69,7 +66,9 @@ export function Header() {
                 inline-flex items-center gap-1.5
                 rounded-full border border-white/60 bg-white/10
                 text-[11px] font-medium text-white
-                hover:bg-white/18 hover:-translate-y-[1px]
+                shadow-[0_8px_20px_rgba(0,0,0,0.3)]
+                hover:bg-white/18 hover:shadow-[0_12px_28px_rgba(0,0,0,0.35)]
+                hover:-translate-y-[1px]
                 active:translate-y-[1px]
               "
             >
