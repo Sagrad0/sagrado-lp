@@ -12,9 +12,9 @@ interface FeatureCardProps {
 
 export function Features() {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white py-16 md:py-20">
       <div className="container mx-auto px-4">
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:gap-8 md:grid-cols-3">
           <ScrollReveal>
             <FeatureCard
               label="RÓTULO"
@@ -51,7 +51,7 @@ function FeatureCard({ icon, label, title, description }: FeatureCardProps) {
   return (
     <div className="group relative overflow-hidden rounded-3xl border border-purple-50 bg-white/95 p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F4439D] via-[#6C2DC7] to-[#00B8C4] text-white shadow-md transition-transform group-hover:scale-105">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F4439D] to-[#6C2DC7] text-white shadow-md transition-transform group-hover:scale-105">
           {icon}
         </div>
         <span className="text-xs font-semibold uppercase tracking-[0.18em] text-purple-900/70">
